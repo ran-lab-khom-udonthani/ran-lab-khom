@@ -1,0 +1,48 @@
+// ฐานข้อมูลระบบรับงานร้านลับคมอุดร
+// ตอนพัฒนาใช้ SQLite — ขึ้นออนไลน์เปลี่ยน provider เป็น "postgresql" ได้
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// งานที่ลูกค้าส่งมาลับคม 1 ใบ (1 ใบรับงาน = 1 Job)
+model Job {
+  id            String    @id @default(cuid())
+  code          String    @unique // รหัสสั้นสำหรับลูกค้า เช่น "KH-1042"
+  customerName  String
+  customerPhone String?
+  // สถานะ: PENDING(รอคิว) IN_PROGRESS(กำลังทำ) DONE(เสร็จแล้ว) PICKED_UP(รับของแล้ว) CANCELLED(ยกเลิก)
+  status        String    @default("PENDING")
+  note          String?
+  totalPrice    Int       @default(0) // ราคารวม (บาท)
+  paid          Boolean   @default(false) // ชำระเงินแล้วหรือยัง
+  receivedAt    DateTime  @default(now()) // วันที่รับงาน
+  readyBy       DateTime? // วันที่นัดรับ / คาดว่าเสร็จ
+  doneAt        DateTime? // เวลาที่ทำเสร็จ
+  pickedUpAt    DateTime? // เวลาที่ลูกค้ามารับ
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  items         JobItem[]
+
+  @@index([status])
+  @@index([receivedAt])
+}
+
+// รายการคมแต่ละชิ้นในงาน
+model JobItem {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  kind        String // ประเภท: กรรไกร | ปัตตาเลี่ยน | มีดแร่ปลา | อื่นๆ
+  description String? // รายละเอียดเพิ่มเติม เช่น ยี่ห้อ/รุ่น
+  quantity    Int      @default(1)
+  unitPrice   Int      @default(0) // ราคาต่อชิ้น (บาท)
+  createdAt   DateTime @default(now())
+
+  @@index([jobId])
+}

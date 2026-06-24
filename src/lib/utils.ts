@@ -1,0 +1,48 @@
+// ฟังก์ชันช่วยจัดรูปแบบ — ใช้ได้ทั้ง server/client
+
+export function formatBaht(amount: number): string {
+  return new Intl.NumberFormat("th-TH", {
+    style: "currency",
+    currency: "THB",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+export function formatThaiDate(date: Date | string | null | undefined): string {
+  if (!date) return "-";
+  const d = typeof date === "string" ? new Date(date) : date;
+  return new Intl.DateTimeFormat("th-TH", {
+    dateStyle: "long",
+    calendar: "buddhist",
+  }).format(d);
+}
+
+export function formatThaiDateTime(
+  date: Date | string | null | undefined
+): string {
+  if (!date) return "-";
+  const d = typeof date === "string" ? new Date(date) : date;
+  return new Intl.DateTimeFormat("th-TH", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    calendar: "buddhist",
+  }).format(d);
+}
+
+// สร้างรหัสงานแบบอ่านง่าย เช่น KH-7F3A (ไม่ใช้ตัวที่สับสน 0/O/1/I)
+const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+export function generateJobCode(): string {
+  let body = "";
+  for (let i = 0; i < 4; i++) {
+    body += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  }
+  return `KH-${body}`;
+}
+
+// แปลง input วันที่ (yyyy-mm-dd) เป็น Date หรือ null
+export function parseDateInput(value: FormDataEntryValue | null): Date | null {
+  if (!value || typeof value !== "string" || value.trim() === "") return null;
+  const d = new Date(value);
+  return isNaN(d.getTime()) ? null : d;
+}
