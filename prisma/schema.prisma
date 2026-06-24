@@ -1,12 +1,12 @@
-// ฐานข้อมูลระบบรับงานร้านลับคมอุดร
-// ตอนพัฒนาใช้ SQLite — ขึ้นออนไลน์เปลี่ยน provider เป็น "postgresql" ได้
+// ฐานข้อมูลระบบรับงานร้านลับคมอุดรธานี
+// ใช้ PostgreSQL (Neon/Supabase/Vercel Postgres) — ตั้งค่า DATABASE_URL ใน .env / Vercel
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
