@@ -24,7 +24,7 @@ const storeMapUrl =
 const storeMapEmbed =
   "https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s17.4139241,102.800179!6i16!3m1!1sth!5m1!1sth";
 const storeStreetViewEmbed =
-  "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sxpKLWjcrY4cgx54vuLgGkw!2m2!1d17.4139241!2d102.800179!3f86.59!4f0!5f0";
+  "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sxpKLWjcrY4cgx54vuLgGkw!2m2!1d17.4139241!2d102.800179!3f86.59!4f0!5f0.7820865974627469";
 
 // คำถามที่พบบ่อย — ใช้ทั้งแสดงบนหน้า และสร้าง FAQPage structured data (แหล่งเดียวกัน)
 const faqs = [
