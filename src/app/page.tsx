@@ -522,7 +522,7 @@ export default function HomePage() {
               และงานครัว
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a className="btn-line" href={lineUrl}>
                 <LineIcon />
                 แอดไลน์ส่งรูปสอบถาม
@@ -535,6 +535,15 @@ export default function HomePage() {
               >
                 <FacebookIcon />
                 เฟซบุ๊กร้าน
+              </a>
+              <a
+                className="btn-gold"
+                href={storeMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MapPinIcon />
+                นำทางไป Google Maps
               </a>
             </div>
             <a
@@ -617,7 +626,11 @@ export default function HomePage() {
             {/* แสงทองวิ่งผ่านการ์ด */}
             <span className="card-shimmer pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-[linear-gradient(90deg,transparent,rgba(245,158,11,0.18),transparent)]" />
 
-            <span className="address-pin mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_34px_rgba(245,158,11,0.5)]">
+            <p className="fade-up text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
+              ที่อยู่จัดส่ง
+            </p>
+
+            <span className="address-pin mx-auto mb-4 mt-3 grid h-16 w-16 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_34px_rgba(245,158,11,0.5)]">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
@@ -664,13 +677,6 @@ export default function HomePage() {
               <br />
               ตำบลหมากแข้ง อ.เมือง จ.อุดรธานี 41000
             </p>
-
-            <div className="fade-up mt-6" style={{ animationDelay: "500ms" }}>
-              <a className="btn-gold" href={mapsUrl}>
-                <MapPinIcon />
-                นำทางไป Google Maps
-              </a>
-            </div>
           </div>
         </div>
       </section>
