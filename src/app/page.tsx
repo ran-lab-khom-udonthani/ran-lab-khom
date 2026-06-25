@@ -595,7 +595,7 @@ export default function HomePage() {
               className="fade-up mt-1 text-lg font-bold text-white"
               style={{ animationDelay: "200ms" }}
             >
-              รุ่งจิรา กุลศิริ
+              รุจิรา กุลศร
             </p>
 
             <div className="fade-up mt-5" style={{ animationDelay: "300ms" }}>
@@ -820,7 +820,7 @@ export default function HomePage() {
                   Facebook: ลับคมอุดรธานี by ช่างเจี๊ยบ
                 </p>
                 <p className="mt-3 leading-8 text-zinc-300">
-                  รุ่งจิรา กุลศิริ — ลับคมอุดรธานี / 254/4 ถนนอดุลยเดช
+                  รุจิรา กุลศร — ลับคมอุดรธานี / 254/4 ถนนอดุลยเดช
                   ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000
                 </p>
                 <p className="mt-2 leading-8 text-zinc-300">
