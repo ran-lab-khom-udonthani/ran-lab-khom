@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { TrackLookupForm } from "@/components/TrackLookupForm";
+import { RequestForm } from "@/components/RequestForm";
 
 const shopName = "ลับคมอุดรธานี";
 const shopSubName = "By ช่างเจี๊ยบ";
@@ -341,6 +342,9 @@ export default function HomePage() {
             <a className="transition hover:text-amber-300" href="#services">
               บริการ
             </a>
+            <a className="transition hover:text-amber-300" href="#request">
+              ขอลับคม
+            </a>
             <a className="transition hover:text-amber-300" href="#experience">
               บรรยากาศร้าน
             </a>
@@ -369,7 +373,9 @@ export default function HomePage() {
         <img
           alt="บรรยากาศร้านลับคมระดับพรีเมียม โทนทองดำ มีเคาน์เตอร์รับงานและเครื่องลับคม"
           className="absolute inset-0 h-full w-full object-cover"
-          src="/assets/sharpening-studio-hero.png"
+          decoding="async"
+          fetchPriority="high"
+          src="/assets/sharpening-studio-hero.webp"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.68)_37%,rgba(0,0,0,0.18)_72%,rgba(0,0,0,0.62)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_28%,rgba(251,191,36,0.26),transparent_32%),linear-gradient(180deg,rgba(0,0,0,0)_70%,#070806_100%)]" />
@@ -484,6 +490,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section id="request" className="px-4 py-16 md:px-6 md:py-20">
+        <div className="mx-auto max-w-3xl">
+          <SectionTitle eyebrow="Online Request" title="ส่งคำขอลับคมออนไลน์">
+            เลือกหมวดคมที่จะนำมาลับ แล้วฝากเบอร์ไว้ — ช่างจะติดต่อกลับและช่วยประเมินให้
+          </SectionTitle>
+          <div className="rounded-2xl border border-amber-300/20 bg-black/40 p-6 md:p-8">
+            <RequestForm />
+          </div>
+        </div>
+      </section>
+
       <section
         id="experience"
         className="relative overflow-hidden border-y border-white/10 bg-[#10120e] py-16 md:py-24"
@@ -492,7 +509,9 @@ export default function HomePage() {
           <img
             alt=""
             className="h-full w-full object-cover"
-            src="/assets/sharpening-studio-hero.png"
+            decoding="async"
+            loading="lazy"
+            src="/assets/sharpening-studio-hero.webp"
           />
         </div>
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#070806_0%,rgba(7,8,6,0.82)_46%,rgba(7,8,6,0.48)_100%)]" />
@@ -531,21 +550,27 @@ export default function HomePage() {
               <img
                 alt="ช่างกำลังตรวจและลับคมกรรไกรด้วยเครื่องมือเฉพาะทาง"
                 className="h-72 w-full object-cover md:h-96"
-                src="/assets/technician-sharpening.png"
+                decoding="async"
+                loading="lazy"
+                src="/assets/technician-sharpening.webp"
               />
             </div>
             <div className="overflow-hidden rounded-lg border border-white/10 bg-black/40">
               <img
                 alt="เคาน์เตอร์รับงานภายในร้านลับคมโทนทองดำ"
                 className="h-52 w-full object-cover object-[42%_58%]"
-                src="/assets/sharpening-studio-hero.png"
+                decoding="async"
+                loading="lazy"
+                src="/assets/sharpening-studio-hero.webp"
               />
             </div>
             <div className="overflow-hidden rounded-lg border border-white/10 bg-black/40">
               <img
                 alt="ตู้โชว์สินค้าและอุปกรณ์ลับคมภายในร้าน"
                 className="h-52 w-full object-cover object-right"
-                src="/assets/sharpening-studio-hero.png"
+                decoding="async"
+                loading="lazy"
+                src="/assets/sharpening-studio-hero.webp"
               />
             </div>
           </div>

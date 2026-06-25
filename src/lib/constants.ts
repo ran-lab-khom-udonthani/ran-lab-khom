@@ -91,3 +91,50 @@ export const presetToRow = (p: ItemPreset) => ({
   quantity: 1,
   unitPrice: p.defaultPrice,
 });
+
+// ---------- คำขอลับคมออนไลน์ (ลูกค้าเลือกหมวดบนหน้าร้าน) ----------
+
+// หมวดคมให้ลูกค้าเลือก (เลือกได้หลายหมวด)
+export const REQUEST_CATEGORIES = [
+  "กรรไกร",
+  "ปัตตาเลี่ยน",
+  "มีดครัว / มีดแล่ / มีดพับ",
+  "มีดแร่ปลา",
+  "ใบเลื่อย / โซ่เลื่อย",
+  "ใบมีดวงกลม / ใบสไลซ์",
+  "เครื่องมือ / อุตสาหกรรม",
+  "อื่นๆ",
+] as const;
+
+export type RequestStatus = "NEW" | "CONTACTED" | "DONE";
+
+export const REQUEST_STATUS_ORDER: RequestStatus[] = [
+  "NEW",
+  "CONTACTED",
+  "DONE",
+];
+
+export const REQUEST_STATUS_META: Record<
+  RequestStatus,
+  { label: string; emoji: string; badge: string }
+> = {
+  NEW: {
+    label: "ใหม่",
+    emoji: "🟡",
+    badge: "bg-amber-400 text-black ring-1 ring-amber-600",
+  },
+  CONTACTED: {
+    label: "ติดต่อแล้ว",
+    emoji: "🔵",
+    badge: "bg-blue-600 text-white ring-1 ring-blue-800",
+  },
+  DONE: {
+    label: "เสร็จสิ้น",
+    emoji: "⚫",
+    badge: "bg-slate-600 text-white ring-1 ring-slate-800",
+  },
+};
+
+export function isValidRequestStatus(s: string): s is RequestStatus {
+  return (REQUEST_STATUS_ORDER as string[]).includes(s);
+}

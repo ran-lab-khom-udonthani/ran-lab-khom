@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { logoutAction } from "../actions";
 import { TabBar } from "@/components/TabBar";
 
@@ -11,6 +12,10 @@ export default async function AdminLayout({
   if (!(await isAuthenticated())) {
     redirect("/admin/login");
   }
+
+  const requestCount = await prisma.jobRequest.count({
+    where: { status: "NEW" },
+  });
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -32,7 +37,7 @@ export default async function AdminLayout({
         {children}
       </main>
 
-      <TabBar />
+      <TabBar requestCount={requestCount} />
     </div>
   );
 }

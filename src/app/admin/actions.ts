@@ -11,7 +11,7 @@ import {
   isAuthenticated,
 } from "@/lib/auth";
 import { generateJobCode, parseDateInput } from "@/lib/utils";
-import { isValidStatus } from "@/lib/constants";
+import { isValidStatus, isValidRequestStatus } from "@/lib/constants";
 
 async function requireAuth() {
   if (!(await isAuthenticated())) {
@@ -220,4 +220,33 @@ export async function deleteJobAction(formData: FormData) {
   }
   revalidatePath("/admin");
   redirect("/admin");
+}
+
+// ---------- คำขอลับคมออนไลน์ ----------
+
+export async function updateRequestStatusAction(formData: FormData) {
+  await requireAuth();
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "");
+  if (!id || !isValidRequestStatus(status)) {
+    throw new Error("ข้อมูลไม่ถูกต้อง");
+  }
+  await prisma.jobRequest.update({ where: { id }, data: { status } });
+  revalidatePath("/admin/requests");
+  revalidatePath("/admin");
+}
+
+export async function deleteRequestAction(formData: FormData) {
+  await requireAuth();
+  const id = String(formData.get("id") ?? "");
+  if (!id) throw new Error("ข้อมูลไม่ถูกต้อง");
+  try {
+    await prisma.jobRequest.delete({ where: { id } });
+  } catch (e) {
+    const gone =
+      e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025";
+    if (!gone) throw e;
+  }
+  revalidatePath("/admin/requests");
+  revalidatePath("/admin");
 }

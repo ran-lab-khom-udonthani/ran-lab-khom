@@ -36,6 +36,20 @@ model Job {
   @@index([receivedAt])
 }
 
+// คำขอลับคมออนไลน์ที่ลูกค้าส่งจากหน้าร้าน (ยังไม่ใช่งานจริง)
+model JobRequest {
+  id            String   @id @default(cuid())
+  customerName  String?
+  customerPhone String?
+  categories    String[] // หมวดคมที่ลูกค้าเลือก (Postgres array)
+  note          String?
+  status        String   @default("NEW") // NEW | CONTACTED | DONE
+  createdAt     DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // รายการคมแต่ละชิ้นในงาน
 model JobItem {
   id          String   @id @default(cuid())
