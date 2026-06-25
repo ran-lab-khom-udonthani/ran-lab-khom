@@ -763,7 +763,7 @@ export default function HomePage() {
                 >
                   <p className="flex items-center gap-2 text-sm font-bold text-amber-300">
                     <PhoneIcon />
-                    โทรหาช่างเป็ด
+                    โทรหาปอมขาวหน้าหมี
                   </p>
                   <p className="mt-1 text-2xl font-black text-white">
                     {secondPhone}
