@@ -495,14 +495,14 @@ export default function HomePage() {
               <span className="h-2 w-2 rounded-full bg-[#06c755]" />
               ร้านลับคมอุดรธานี · เปิดจริง รับงานจริง
             </div>
-            <h1 className="text-5xl font-black leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-black leading-[1.05] tracking-normal text-white sm:text-6xl sm:leading-[1.02] lg:text-7xl">
               ลับคมอุดรธานี
               <span className="mt-2 block text-amber-300">By ช่างเจี๊ยบ</span>
             </h1>
-            <p className="mt-5 max-w-2xl text-2xl font-bold leading-10 text-white">
+            <p className="mt-4 max-w-2xl text-xl font-bold leading-8 text-white sm:mt-5 sm:text-2xl sm:leading-10">
               คมกลับมาเหมือนใหม่ ใช้งานได้จริง
             </p>
-            <p className="mt-3 max-w-2xl text-lg leading-9 text-zinc-200">
+            <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-200 sm:text-lg sm:leading-9">
               รับลับคมกรรไกร ปัตตาเลี่ยน มีด แร่ปลา ใบเลื่อย ใบมีดวงกลม
               และเครื่องมือคมเฉพาะทาง ลับด้วยเครื่องมือของช่างโดยตรง
               ดูงานทุกชิ้นก่อนส่งคืน รับงานช่างตัดผม ร้านตัดขนสัตว์ ร้านอาหาร
