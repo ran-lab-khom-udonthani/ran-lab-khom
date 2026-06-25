@@ -552,24 +552,6 @@ export default function HomePage() {
             >
               หรือ ส่งคำขอออนไลน์ ↓
             </a>
-
-            <div className="mt-9 grid grid-cols-1 gap-3 text-sm font-semibold text-zinc-200 sm:grid-cols-3">
-              {[
-                "มีหน้าร้านจริง เดินเข้ามาได้",
-                "คุยกับช่างเองตรงเคาน์เตอร์",
-                "เช็กคมทุกชิ้นก่อนคืนงาน",
-              ].map((item, index) => (
-                <div
-                  className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur"
-                  key={item}
-                >
-                  <span className="mb-2 grid h-8 w-8 place-items-center rounded-full bg-amber-300 text-sm font-black text-black">
-                    {index + 1}
-                  </span>
-                  {item}
-                </div>
-              ))}
-            </div>
           </div>
 
           <aside className="mx-auto hidden w-full max-w-sm overflow-hidden rounded-2xl border border-amber-300/25 bg-black/45 shadow-[0_0_46px_rgba(0,0,0,0.62)] backdrop-blur fade-up md:block md:justify-self-end">
