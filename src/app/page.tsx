@@ -633,15 +633,6 @@ export default function HomePage() {
         className="scroll-mt-24 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
       >
         <div className="mx-auto max-w-7xl">
-          <SectionTitle
-            eyebrow="ผลงานจริง 32 รูป"
-            title="งานจริงจากหน้าร้าน แยกตามประเภท"
-          >
-            รูปงานที่ลับจริงในร้าน ไม่ใช่ภาพสต็อก แตะที่รูปเพื่อดูแบบเต็มจอ
-            มีตั้งแต่กรรไกร ปัตตาเลี่ยน มีด ใบเลื่อย ใบมีดวงกลม
-            ไปจนถึงเครื่องมืออุตสาหกรรม
-          </SectionTitle>
-
           <WorkGallery groups={workGroups} />
         </div>
       </section>
