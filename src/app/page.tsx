@@ -18,6 +18,13 @@ const qrSrc = `/api/qr?data=${encodeURIComponent(lineUrl)}`;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   "ลับคมอุดรธานี 254/4 ถนนอดุลยเดช หมากแข้ง เมือง อุดรธานี 41000",
 )}`;
+// ลิงก์ + embed ตำแหน่งร้านจริงบน Google Maps (พิกัด 17.4139241, 102.800179)
+const storeMapUrl =
+  "https://www.google.com/maps/place/%E0%B8%A5%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%A1%E0%B8%AD%E0%B8%B8%E0%B8%94%E0%B8%A3%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5/@17.4139241,102.800179,18z/data=!4m6!3m5!1s0x31239da254246435:0x3509d147dcddcafc!8m2!3d17.4139241!4d102.800179!16s%2Fg%2F11wfvrx63r";
+const storeMapEmbed =
+  "https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s17.4139241,102.800179!6i16!3m1!1sth!5m1!1sth";
+const storeStreetViewEmbed =
+  "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sxpKLWjcrY4cgx54vuLgGkw!2m2!1d17.4139241!2d102.800179!3f86.59!4f0!5f0";
 
 // คำถามที่พบบ่อย — ใช้ทั้งแสดงบนหน้า และสร้าง FAQPage structured data (แหล่งเดียวกัน)
 const faqs = [
@@ -541,21 +548,47 @@ export default function HomePage() {
             </div>
           </div>
 
-          <aside className="mx-auto hidden w-full max-w-sm rounded-2xl border border-amber-300/25 bg-black/45 p-5 shadow-[0_0_46px_rgba(0,0,0,0.62)] backdrop-blur fade-up md:block md:justify-self-end">
-            <div className="rounded-2xl bg-white p-3">
-              <img
-                alt="QR Code สำหรับแอดไลน์ร้านลับคมอุดรธานี By ช่างเจี๊ยบ"
-                className="aspect-square w-full"
-                src={qrSrc}
+          <aside className="mx-auto hidden w-full max-w-sm overflow-hidden rounded-2xl border border-amber-300/25 bg-black/45 shadow-[0_0_46px_rgba(0,0,0,0.62)] backdrop-blur fade-up md:block md:justify-self-end">
+            {/* คลิกที่ใดก็ได้บนแผนที่/หน้าร้าน → เปิดตำแหน่งร้านบน Google Maps */}
+            <a
+              href={storeMapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="เปิดแผนที่ร้านลับคมอุดรธานีบน Google Maps"
+              className="group relative block"
+            >
+              {/* แผนที่ร้าน */}
+              <iframe
+                src={storeMapEmbed}
+                title="แผนที่ร้านลับคมอุดรธานี"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{ border: 0 }}
+                className="pointer-events-none block h-44 w-full"
               />
-            </div>
-            <div className="mt-4 text-center">
-              <p className="text-xl font-extrabold text-amber-300">
-                สแกนแอดไลน์ร้าน
+              {/* หน้าร้านจริง (Street View) */}
+              <span className="block border-t border-white/10">
+                <iframe
+                  src={storeStreetViewEmbed}
+                  title="หน้าร้านลับคมอุดรธานี (Street View)"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ border: 0 }}
+                  className="pointer-events-none block h-40 w-full"
+                />
+              </span>
+              {/* ป้ายชวนแตะ */}
+              <span className="pointer-events-none absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-amber-400 px-4 py-2 text-sm font-extrabold text-black shadow-lg transition group-hover:bg-amber-300">
+                <MapPinIcon />
+                แตะเพื่อนำทาง
+              </span>
+            </a>
+            <div className="p-5 text-center">
+              <p className="text-lg font-extrabold text-amber-300">
+                แผนที่ร้าน · หน้าร้านจริง
               </p>
               <p className="mt-1 text-sm leading-6 text-zinc-300">
-                ถ่ายรูปเครื่องมือส่งมาทางไลน์ ช่างดูให้ก่อนว่าลับได้ไหม
-                ราคาประมาณเท่าไหร่
+                254/4 ถนนอดุลยเดช ต.หมากแข้ง อ.เมือง จ.อุดรธานี — แตะแผนที่เพื่อเปิดนำทางได้เลย
               </p>
             </div>
           </aside>
