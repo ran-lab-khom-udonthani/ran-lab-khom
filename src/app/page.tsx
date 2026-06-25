@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { TrackLookupForm } from "@/components/TrackLookupForm";
 import { RequestForm } from "@/components/RequestForm";
+import { WorkGallery } from "@/components/WorkGallery";
 
 const shopName = "ลับคมอุดรธานี";
 const shopSubName = "By ช่างเจี๊ยบ";
@@ -490,57 +491,7 @@ export default function HomePage() {
             ใบเลื่อย ใบมีดวงกลม และเครื่องมือเฉพาะทางหลายประเภท
           </SectionTitle>
 
-          <div className="space-y-12">
-            {workGroups.map((group, groupIndex) => (
-              <section
-                aria-labelledby={`work-group-${groupIndex}`}
-                className="border-t border-white/10 pt-8"
-                key={group.category}
-              >
-                <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-                      {group.items.length} Real Photos
-                    </p>
-                    <h3
-                      className="mt-1 text-2xl font-black leading-tight text-white md:text-3xl"
-                      id={`work-group-${groupIndex}`}
-                    >
-                      {group.category}
-                    </h3>
-                  </div>
-                  <p className="max-w-xl text-sm leading-7 text-zinc-300 md:text-right">
-                    {group.description}
-                  </p>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {group.items.map((item) => (
-                    <figure
-                      className="group overflow-hidden rounded-lg border border-white/10 bg-zinc-950"
-                      key={`${group.category}-${item.title}`}
-                    >
-                      <img
-                        alt={`${item.title} - ${group.category}`}
-                        className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
-                        decoding="async"
-                        loading="lazy"
-                        src={item.image}
-                      />
-                      <figcaption className="border-t border-white/10 px-4 py-3">
-                        <p className="text-sm font-bold text-amber-300">
-                          {group.category}
-                        </p>
-                        <p className="mt-1 text-base font-black leading-7 text-white">
-                          {item.title}
-                        </p>
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
+          <WorkGallery groups={workGroups} />
         </div>
       </section>
 
