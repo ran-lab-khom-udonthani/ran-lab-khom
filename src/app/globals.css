@@ -52,12 +52,53 @@ html {
   animation: fade-up 760ms ease both;
 }
 
+/* การ์ดที่อยู่ร้าน — แสงทองวิ่งผ่าน + ไอคอนลอย + ปุ่มโทรเต้น */
+@keyframes card-shimmer {
+  0% {
+    transform: translateX(-150%) skewX(-12deg);
+  }
+  60%,
+  100% {
+    transform: translateX(480%) skewX(-12deg);
+  }
+}
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes phone-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 16px rgba(245, 158, 11, 0);
+  }
+}
+.card-shimmer {
+  animation: card-shimmer 4s ease-in-out infinite;
+}
+.address-pin {
+  animation: float-y 3s ease-in-out infinite;
+}
+.phone-pulse {
+  animation: phone-pulse 2s ease-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .fade-up {
+  .fade-up,
+  .card-shimmer,
+  .address-pin,
+  .phone-pulse {
     animation: none;
   }
 }

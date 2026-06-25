@@ -562,24 +562,68 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* แถบข้อมูลจริง — ข้อเท็จจริงล้วน ไม่มีตัวเลขกุ */}
-      <section className="border-y border-white/10 bg-black/40">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
-          {[
-            { big: "32+", sub: "รูปผลงานจริง" },
-            { big: "ทุกชนิด", sub: "รับลับคมทุกประเภท" },
-            { big: "มีหน้าร้าน", sub: "อุดรธานี เดินเข้ามาได้" },
-            { big: "ส่งรูปทางไลน์", sub: "ช่างประเมินราคาให้ก่อน" },
-          ].map((f) => (
-            <div key={f.sub} className="px-4 py-5 text-center">
-              <p className="text-lg font-extrabold text-amber-300 md:text-xl">
-                {f.big}
-              </p>
-              <p className="mt-1 text-xs leading-5 text-zinc-400 md:text-sm">
-                {f.sub}
-              </p>
+      {/* การ์ดที่อยู่ร้าน (อนิเมชัน) — แทนแถบสถิติเดิม */}
+      <section className="border-y border-white/10 bg-[#070806] px-4 py-12 md:py-16">
+        <div className="mx-auto max-w-3xl">
+          <div className="relative overflow-hidden rounded-2xl border border-amber-300/30 bg-[linear-gradient(145deg,rgba(245,158,11,0.10),rgba(255,255,255,0.035))] p-7 text-center shadow-[0_14px_50px_rgba(0,0,0,0.32)] md:p-9">
+            {/* แสงทองวิ่งผ่านการ์ด */}
+            <span className="card-shimmer pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-[linear-gradient(90deg,transparent,rgba(245,158,11,0.18),transparent)]" />
+
+            <span className="address-pin mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_34px_rgba(245,158,11,0.5)]">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-8 w-8"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </span>
+
+            <p
+              className="fade-up text-3xl font-extrabold text-amber-300 md:text-4xl"
+              style={{ animationDelay: "120ms" }}
+            >
+              ลับคมอุดรธานี
+            </p>
+            <p
+              className="fade-up mt-1 text-lg font-bold text-white"
+              style={{ animationDelay: "200ms" }}
+            >
+              รุ่งจิรา กุลศิริ
+            </p>
+
+            <div className="fade-up mt-5" style={{ animationDelay: "300ms" }}>
+              <a
+                href={`tel:${mainPhone.replaceAll("-", "")}`}
+                className="phone-pulse inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-lg font-extrabold text-black"
+              >
+                <PhoneIcon />
+                {mainPhone}
+              </a>
             </div>
-          ))}
+
+            <p
+              className="fade-up mt-5 text-lg leading-9 text-zinc-100"
+              style={{ animationDelay: "400ms" }}
+            >
+              ลับคมอุดรธานี · 254/4 ถนนอดุลยเดช
+              <br />
+              ตำบลหมากแข้ง อ.เมือง จ.อุดรธานี 41000
+            </p>
+
+            <div className="fade-up mt-6" style={{ animationDelay: "500ms" }}>
+              <a className="btn-gold" href={mapsUrl}>
+                <MapPinIcon />
+                นำทางไป Google Maps
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
