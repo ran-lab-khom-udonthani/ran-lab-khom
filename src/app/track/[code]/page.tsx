@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const SHOP_NAME = process.env.NEXT_PUBLIC_SHOP_NAME || "ลับคมอุดรธานี";
 const LINE_URL =
-  process.env.NEXT_PUBLIC_LINE_URL || "https://line.me/R/ti/p/~0844283946";
+  process.env.NEXT_PUBLIC_LINE_URL || "https://line.me/ti/p/nLuK-ZCt72";
 
 // ขั้นตอนที่แสดงใน timeline (ไม่รวมยกเลิก)
 const TIMELINE: typeof STATUS_ORDER = [

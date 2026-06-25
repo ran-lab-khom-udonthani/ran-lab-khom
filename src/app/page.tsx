@@ -10,7 +10,7 @@ const shopSubName = "By ช่างเจี๊ยบ";
 const mainPhone = "084-428-3946";
 const secondPhone = "084-203-1783";
 const lineUrl =
-  process.env.NEXT_PUBLIC_LINE_URL || "https://line.me/R/ti/p/~0844283946";
+  process.env.NEXT_PUBLIC_LINE_URL || "https://line.me/ti/p/nLuK-ZCt72";
 const facebookUrl =
   process.env.NEXT_PUBLIC_FACEBOOK_URL ||
   "https://www.facebook.com/profile.php?id=61553739966067";
