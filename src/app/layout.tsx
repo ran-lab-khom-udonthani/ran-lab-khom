@@ -63,10 +63,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  // ใส่ค่าได้ภายหลังผ่าน env (Search Console) โดยไม่ต้อง hardcode token ลง repo
-  verification: process.env.GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  // ยืนยันความเป็นเจ้าของกับ Google Search Console (token นี้เป็นค่าสาธารณะ — meta tag
+  // ในหน้าเว็บ; Google แนะนำให้คงไว้ถาวร) ตั้ง env ทับได้ถ้าต้องการเปลี่ยน
+  verification: {
+    google:
+      process.env.GOOGLE_SITE_VERIFICATION ||
+      "kAEh8xoNE3f3BI9BjzMPoglM-hfjdz7oVoME2T4WVIA",
+  },
 };
 
 export const viewport: Viewport = {
