@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { STATUS_META, STATUS_ORDER } from "@/lib/constants";
@@ -5,6 +6,11 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { formatBaht, formatThaiDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+// หน้าติดตามงานของลูกค้าแต่ละราย ไม่ควรอยู่ในผลค้นหา Google
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const SHOP_NAME = process.env.NEXT_PUBLIC_SHOP_NAME || "ลับคมอุดรธานี";
 const LINE_URL =

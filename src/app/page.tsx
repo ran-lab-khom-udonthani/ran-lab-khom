@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { TrackLookupForm } from "@/components/TrackLookupForm";
 import { RequestForm } from "@/components/RequestForm";
 import { WorkGallery } from "@/components/WorkGallery";
+import { SITE_URL } from "@/lib/site";
 
 const shopName = "ลับคมอุดรธานี";
 const shopSubName = "By ช่างเจี๊ยบ";
@@ -12,11 +13,81 @@ const lineUrl =
   process.env.NEXT_PUBLIC_LINE_URL || "https://line.me/R/ti/p/~0844283946";
 const facebookUrl =
   process.env.NEXT_PUBLIC_FACEBOOK_URL ||
-  "https://www.facebook.com/search/top?q=%E0%B8%A5%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%A1%E0%B8%AD%E0%B8%B8%E0%B8%94%E0%B8%A3%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5%20by%20%E0%B8%8A%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%80%E0%B8%88%E0%B8%B5%E0%B9%8A%E0%B8%A2%E0%B8%9A";
+  "https://www.facebook.com/profile.php?id=61553739966067";
 const qrSrc = `/api/qr?data=${encodeURIComponent(lineUrl)}`;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   "ลับคมอุดรธานี 254/4 ถนนอดุลยเดช หมากแข้ง เมือง อุดรธานี 41000",
 )}`;
+
+// คำถามที่พบบ่อย — ใช้ทั้งแสดงบนหน้า และสร้าง FAQPage structured data (แหล่งเดียวกัน)
+const faqs = [
+  {
+    q: "ร้านลับคมอุดรธานีอยู่ตรงไหน",
+    a: "254/4 ถนนอดุลยเดช ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000 ใกล้โรงเรียนดอนบอสโก ตรงข้าม CR7 สนุกเกอร์ มีหน้าร้านจริง",
+  },
+  {
+    q: "ลับอะไรได้บ้าง",
+    a: "กรรไกรตัดผม ซอย ตัดหนัง ปัตตาเลี่ยนคน/สัตว์ มีดครัว แล่ พับ ช่าง มีดแร่ปลา ใบเลื่อย ใบมีดวงกลม และงานอุตสาหกรรม",
+  },
+  {
+    q: "ลับคมราคาเท่าไหร่",
+    a: "ราคาขึ้นกับชนิดและสภาพคม ถ่ายรูปส่งทางไลน์ ช่างประเมินราคาให้ก่อนได้ ไม่ต้องเสียเที่ยวมาถึงร้าน",
+  },
+  {
+    q: "ต้องนัดล่วงหน้าไหม",
+    a: "โทร 084-428-3946 หรือ 084-203-1783 หรือทักไลน์ หรือกรอกแบบฟอร์มในเว็บ เดี๋ยวช่างติดต่อกลับ",
+  },
+  {
+    q: "รับงานช่างตัดผม ร้านตัดขนสัตว์ ร้านอาหารไหม",
+    a: "รับครับ ทั้งช่างตัดผม บาร์เบอร์ ร้านกรูมมิ่งตัดขนสัตว์ ร้านอาหารและงานครัว",
+  },
+];
+
+// Structured data: ร้านค้าท้องถิ่น — ที่อยู่เป็นภาษาไทยให้ตรงกับที่แสดงบนเว็บ/Facebook (NAP)
+// ไม่ใส่พิกัด/เวลาเปิด/รีวิว ที่ยังไม่ยืนยัน
+const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "ProfessionalService"],
+  "@id": `${SITE_URL}/#business`,
+  name: "ร้านลับคมอุดรธานี By ช่างเจี๊ยบ",
+  description:
+    "รับลับคมกรรไกร ปัตตาเลี่ยน มีด แร่ปลา ใบเลื่อย ใบมีดวงกลม และเครื่องมือคมทุกชนิด มีหน้าร้านในอำเภอเมือง จังหวัดอุดรธานี",
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image`,
+  telephone: "+66844283946",
+  priceRange: "฿",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "254/4 ถนนอดุลยเดช",
+    addressLocality: "ตำบลหมากแข้ง อำเภอเมือง",
+    addressRegion: "อุดรธานี",
+    postalCode: "41000",
+    addressCountry: "TH",
+  },
+  areaServed: { "@type": "City", name: "อุดรธานี" },
+  sameAs: [facebookUrl, lineUrl],
+  makesOffer: [
+    "ลับคมกรรไกร",
+    "ลับคมปัตตาเลี่ยน",
+    "ลับคมมีด",
+    "ลับมีดแร่ปลา / แล่ปลา",
+    "ลับใบเลื่อยและใบมีดวงกลม",
+    "จำหน่ายอุปกรณ์ลับคม",
+  ].map((name) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name },
+  })),
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
 const services = [
   {
@@ -338,6 +409,16 @@ function SectionTitle({
 export default function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#070806] pb-24 text-white md:pb-0">
+      {/* Structured data ให้ Google เข้าใจว่าเป็นร้านค้าท้องถิ่นในอุดรธานี */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
           <Link href="/" className="flex min-w-0 items-center gap-3">
@@ -627,6 +708,24 @@ export default function HomePage() {
               </p>
               <TrackLookupForm />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* คำถามที่พบบ่อย — ตอบลูกค้าก่อนโทร + ช่วย SEO คำค้นยาว */}
+      <section
+        id="faq"
+        className="scroll-mt-24 border-t border-white/10 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
+      >
+        <div className="mx-auto max-w-3xl">
+          <SectionTitle eyebrow="คำถามที่พบบ่อย" title="เรื่องที่ลูกค้าถามบ่อย" />
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <div className="card-dark p-5" key={f.q}>
+                <h3 className="text-lg font-extrabold text-amber-200">{f.q}</h3>
+                <p className="mt-2 leading-8 text-zinc-300">{f.a}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
