@@ -81,6 +81,25 @@ html {
   @apply flex min-h-14 items-center justify-center gap-2 rounded-xl border-2 border-red-300 bg-white px-6 text-lg font-semibold text-red-700 active:bg-red-50;
 }
 
+/* ปุ่มหลักหน้า Landing (โทนทอง/ดำ พรีเมียม) */
+.btn-gold {
+  @apply inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-amber-400 px-6 text-base font-extrabold text-black shadow-[0_0_30px_rgba(245,158,11,0.40)] transition hover:-translate-y-0.5 hover:bg-amber-300;
+}
+.btn-ghost-gold {
+  @apply inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-amber-300/70 bg-black/30 px-6 text-base font-extrabold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-300 hover:text-black;
+}
+.btn-line {
+  @apply inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#06c755] px-6 text-base font-extrabold text-white transition hover:-translate-y-0.5 hover:brightness-110;
+}
+
+/* การ์ดหน้า Landing */
+.card-dark {
+  @apply rounded-2xl border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.09),rgba(255,255,255,0.035))] shadow-[0_14px_50px_rgba(0,0,0,0.28)];
+}
+.card-gold {
+  @apply rounded-2xl border border-amber-300/25 bg-black/45;
+}
+
 /* ซ่อนปุ่มเพิ่ม/ลดของ input number */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

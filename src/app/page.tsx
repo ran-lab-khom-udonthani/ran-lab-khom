@@ -14,42 +14,45 @@ const facebookUrl =
   process.env.NEXT_PUBLIC_FACEBOOK_URL ||
   "https://www.facebook.com/search/top?q=%E0%B8%A5%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%A1%E0%B8%AD%E0%B8%B8%E0%B8%94%E0%B8%A3%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5%20by%20%E0%B8%8A%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%80%E0%B8%88%E0%B8%B5%E0%B9%8A%E0%B8%A2%E0%B8%9A";
 const qrSrc = `/api/qr?data=${encodeURIComponent(lineUrl)}`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  "ลับคมอุดรธานี 254/4 ถนนอดุลยเดช หมากแข้ง เมือง อุดรธานี 41000",
+)}`;
 
 const services = [
   {
     title: "ลับคมกรรไกร",
-    short: "กรรไกรตัดผม กรรไกรซอย กรรไกรตัดหนัง",
-    detail: "คมกริบ ตัดลื่น ไม่กินเส้นผม เหมาะกับงานหน้าร้านและงานมืออาชีพ",
+    short: "กรรไกรตัดผม · กรรไกรซอย · กรรไกรตัดหนัง",
+    detail: "คมลื่น ตัดไม่กินผม ไม่ดึง เหมาะกับช่างที่ใช้ทั้งวัน",
     icon: "M7 7l10 10M17 7 7 17M8 7a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm12 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z",
   },
   {
     title: "ลับคมปัตตาเลี่ยน",
-    short: "ใบมีดปัตตาเลี่ยนคนและสัตว์เลี้ยง",
-    detail: "ลดสะดุด ลดดึงขน ช่วยให้เครื่องกลับมาตัดได้เนียนและลื่นขึ้น",
+    short: "ใบมีดปัตตาเลี่ยนคน · ปัตตาเลี่ยนตัดขนสัตว์",
+    detail: "ตัดลื่นขึ้น ไม่สะดุด ไม่ดึงขน เครื่องกลับมาเดินคมเหมือนใหม่",
     icon: "M6 6h12v7H6zM8 13v5m4-5v5m4-5v5M9 3v3m6-3v3",
   },
   {
     title: "ลับคมมีด",
-    short: "มีดครัว มีดแล่ มีดช่าง",
-    detail: "คมทน ใช้งานง่าย คุมแรงได้ดี และปลอดภัยกว่าการฝืนใช้มีดทื่อ",
+    short: "มีดครัว · มีดแล่ · มีดพับ · มีดช่าง",
+    detail: "คมเข้าเนื้อง่าย ใช้ออกแรงน้อย ปลอดภัยกว่าฝืนใช้มีดทื่อ",
     icon: "M5 19l9-14 5 5-14 9Zm9-14 5 5",
   },
   {
-    title: "แร่ปลา / แล่ปลา",
-    short: "งานร้านอาหารและครัวมืออาชีพ",
-    detail: "คมบาง คุมทิศทางง่าย ช่วยให้งานแล่ปลาและแล่เนื้อเรียบร้อยขึ้น",
+    title: "ลับมีดแร่ปลา / แล่ปลา",
+    short: "สำหรับร้านอาหารและครัวที่ใช้งานหนัก",
+    detail: "คมบาง คุมทางเดินมีดง่าย แล่ปลาแล่เนื้อได้เนียนขึ้น",
     icon: "M4 12c4-5 10-5 16 0-6 5-12 5-16 0Zm12 0h4M8 10h.01",
   },
   {
-    title: "เครื่องมือคมอื่น ๆ",
-    short: "อุปกรณ์เฉพาะทางหลายประเภท",
-    detail: "ส่งรูปให้ช่างประเมินก่อนได้ ตรวจสภาพหน้างานก่อนลับทุกชิ้น",
+    title: "ใบเลื่อย · ใบมีดวงกลม · งานเฉพาะทาง",
+    short: "ใบเลื่อยวงเดือน โซ่เลื่อย ใบมีดวงกลม ใบมีดเครื่องจักร",
+    detail: "งานเฉพาะทางส่งรูปให้ช่างดูก่อนได้ ทุกชิ้นตรวจสภาพหน้างานก่อนลงมือ",
     icon: "M12 3v18M5 8h14M7 16h10M8 8l2 8m6-8-2 8",
   },
   {
     title: "จำหน่ายอุปกรณ์ลับคม",
-    short: "เครื่องลับคม ใบมีด และน้ำยา",
-    detail: "อุปกรณ์ดูแลใบมีดและสินค้าที่เกี่ยวข้องสำหรับร้านและช่างมืออาชีพ",
+    short: "เครื่องลับคม · ใบมีด · น้ำยาดูแลคม",
+    detail: "อุปกรณ์ดูแลใบมีดสำหรับช่างและร้าน สอบถามของในร้านทางไลน์ได้",
     icon: "M5 8h14l-1 12H6L5 8Zm3 0a4 4 0 0 1 8 0",
   },
 ];
@@ -187,7 +190,8 @@ const workGroups = [
   },
   {
     category: "เครื่องมือเฉพาะทาง / อุตสาหกรรม",
-    description: "ใบมีดยาว ใบมีดเครื่องบด ใบกัดไม้ และเครื่องมือพิเศษที่ประเมินหน้างาน",
+    description:
+      "ใบมีดยาว ใบมีดเครื่องบด ใบกัดไม้ และเครื่องมือพิเศษที่ประเมินหน้างาน",
     items: [
       {
         title: "ใบมีดยาวงานเครื่องจักร",
@@ -255,6 +259,24 @@ function PhoneIcon() {
   );
 }
 
+function MapPinIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
 function LineIcon() {
   return (
     <span className="grid h-5 w-8 place-items-center rounded bg-[#06c755] text-[10px] font-black leading-none text-white">
@@ -265,7 +287,7 @@ function LineIcon() {
 
 function BrandMark() {
   return (
-    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg border border-amber-300/50 bg-amber-400 text-black shadow-[0_0_28px_rgba(245,158,11,0.32)]">
+    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-amber-300/50 bg-amber-400 text-black shadow-[0_0_28px_rgba(245,158,11,0.32)]">
       <svg
         aria-hidden="true"
         className="h-7 w-7"
@@ -286,18 +308,24 @@ function BrandMark() {
 function SectionTitle({
   eyebrow,
   title,
+  align = "center",
   children,
 }: {
   eyebrow: string;
   title: string;
+  align?: "center" | "left";
   children?: ReactNode;
 }) {
+  const wrap =
+    align === "center"
+      ? "mx-auto mb-10 max-w-3xl text-center"
+      : "mb-10 max-w-3xl text-left";
   return (
-    <div className="mx-auto mb-8 max-w-3xl text-center">
+    <div className={wrap}>
       <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
         {eyebrow}
       </p>
-      <h2 className="mt-2 text-3xl font-black leading-tight text-white md:text-4xl">
+      <h2 className="mt-2 text-3xl font-extrabold leading-tight text-white md:text-4xl">
         {title}
       </h2>
       {children ? (
@@ -325,96 +353,115 @@ export default function HomePage() {
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm font-semibold text-zinc-200 lg:flex">
+            <a className="transition hover:text-amber-300" href="#gallery">
+              ผลงานจริง
+            </a>
             <a className="transition hover:text-amber-300" href="#services">
               บริการ
             </a>
             <a className="transition hover:text-amber-300" href="#request">
-              ขอลับคม
-            </a>
-            <a className="transition hover:text-amber-300" href="#gallery">
-              ตัวอย่างงาน
+              ส่งงานลับคม
             </a>
             <a className="transition hover:text-amber-300" href="#contact">
-              ติดต่อ
+              ติดต่อร้าน
             </a>
           </nav>
 
+          {/* ปุ่มโทรฝั่งขวาบนจอใหญ่ */}
           <a
             className="hidden min-h-12 items-center gap-2 rounded-full bg-amber-400 px-5 text-sm font-black text-black shadow-[0_0_28px_rgba(245,158,11,0.36)] transition hover:bg-amber-300 md:flex"
             href={`tel:${mainPhone.replaceAll("-", "")}`}
           >
             <PhoneIcon />
-            {mainPhone}
+            โทรหาช่าง {mainPhone}
           </a>
+
+          {/* ปุ่มติดต่อสำหรับมือถือ — ไลน์ + โทร */}
+          <div className="flex items-center gap-2 md:hidden">
+            <a
+              href={lineUrl}
+              aria-label="แอดไลน์"
+              className="grid h-11 w-11 place-items-center rounded-full bg-[#06c755] text-white"
+            >
+              <LineIcon />
+            </a>
+            <a
+              href={`tel:${mainPhone.replaceAll("-", "")}`}
+              aria-label="โทรหาช่าง"
+              className="grid h-11 w-11 place-items-center rounded-full bg-amber-400 text-black"
+            >
+              <PhoneIcon />
+            </a>
+          </div>
         </div>
       </header>
 
-      <section className="relative min-h-[820px] overflow-hidden pt-24 md:min-h-[760px]">
-        <img
-          alt="บรรยากาศร้านลับคมระดับพรีเมียม โทนทองดำ มีเคาน์เตอร์รับงานและเครื่องลับคม"
-          className="absolute inset-0 h-full w-full object-cover"
-          decoding="async"
-          fetchPriority="high"
-          src="/assets/sharpening-studio-hero.webp"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.68)_37%,rgba(0,0,0,0.18)_72%,rgba(0,0,0,0.62)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_28%,rgba(251,191,36,0.26),transparent_32%),linear-gradient(180deg,rgba(0,0,0,0)_70%,#070806_100%)]" />
+      {/* HERO — ข้อความล้วน ไม่มีรูปประกอบ (พื้นหลังไล่สีทอง/ดำ) */}
+      <section className="relative min-h-[640px] overflow-hidden pt-24 md:min-h-[600px]">
+        <div className="absolute inset-0 bg-[#070806]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(251,191,36,0.20),transparent_42%),radial-gradient(circle_at_85%_70%,rgba(245,158,11,0.10),transparent_45%),linear-gradient(180deg,#070806_60%,#0a0b08_100%)]" />
 
-        <div className="relative mx-auto grid min-h-[720px] max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-[1.1fr_0.9fr] md:px-6">
+        <div className="relative mx-auto grid min-h-[560px] max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-[1.1fr_0.9fr] md:px-6">
           <div className="max-w-3xl fade-up">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-black/50 px-4 py-2 text-sm font-bold text-amber-200 shadow-[0_0_36px_rgba(245,158,11,0.18)]">
               <span className="h-2 w-2 rounded-full bg-[#06c755]" />
-              Sharpening Studio Experience
+              ร้านลับคมอุดรธานี · เปิดจริง รับงานจริง
             </div>
             <h1 className="text-5xl font-black leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
               ลับคมอุดรธานี
               <span className="mt-2 block text-amber-300">By ช่างเจี๊ยบ</span>
             </h1>
             <p className="mt-5 max-w-2xl text-2xl font-bold leading-10 text-white">
-              บริการลับคมมืออาชีพ คมจริง ใช้งานดี
+              คมกลับมาเหมือนใหม่ ใช้งานได้จริง
             </p>
             <p className="mt-3 max-w-2xl text-lg leading-9 text-zinc-200">
-              รับลับคมกรรไกร ปัตตาเลี่ยน มีด แร่ปลา และเครื่องมือคมทุกชนิด
-              ดูแลคมด้วยเครื่องมือเฉพาะทาง เหมาะสำหรับช่างตัดผม
-              ร้านตัดขนสัตว์ ร้านอาหาร และงานครัวมืออาชีพ
+              รับลับคมกรรไกร ปัตตาเลี่ยน มีด แร่ปลา ใบเลื่อย ใบมีดวงกลม
+              และเครื่องมือคมเฉพาะทาง ลับด้วยเครื่องมือของช่างโดยตรง
+              ดูงานทุกชิ้นก่อนส่งคืน รับงานช่างตัดผม ร้านตัดขนสัตว์ ร้านอาหาร
+              และงานครัว
             </p>
 
-            <div className="mt-7 hidden flex-col gap-3 sm:flex sm:flex-row">
-              <a
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-amber-400 px-7 text-base font-black text-black shadow-[0_0_30px_rgba(245,158,11,0.42)] transition hover:-translate-y-0.5 hover:bg-amber-300"
-                href={lineUrl}
-              >
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a className="btn-line" href={lineUrl}>
                 <LineIcon />
-                แอด Line เพื่อสอบถาม
+                แอดไลน์ส่งรูปสอบถาม
               </a>
               <a
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-amber-300/70 bg-black/30 px-7 text-base font-black text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-300 hover:text-black"
+                className="btn-ghost-gold"
                 href={`tel:${mainPhone.replaceAll("-", "")}`}
               >
                 <PhoneIcon />
                 โทรหาช่างเจี๊ยบ
               </a>
             </div>
+            <a
+              href="#request"
+              className="mt-4 inline-block text-sm font-extrabold text-amber-200 underline-offset-4 hover:underline"
+            >
+              หรือ ส่งคำขอออนไลน์ ↓
+            </a>
 
-            <div className="mt-9 hidden max-w-3xl gap-3 text-sm font-semibold text-zinc-200 sm:grid sm:grid-cols-3">
-              {["เห็นป้ายหน้าร้าน", "คุยกับช่างที่เคาน์เตอร์", "รับงานคมก่อนส่งมอบ"].map(
-                (item, index) => (
-                  <div
-                    className="rounded-lg border border-white/10 bg-black/40 p-4 backdrop-blur"
-                    key={item}
-                  >
-                    <span className="mb-2 grid h-8 w-8 place-items-center rounded-full bg-amber-300 text-sm font-black text-black">
-                      {index + 1}
-                    </span>
-                    {item}
-                  </div>
-                ),
-              )}
+            <div className="mt-9 grid grid-cols-1 gap-3 text-sm font-semibold text-zinc-200 sm:grid-cols-3">
+              {[
+                "มีหน้าร้านจริง เดินเข้ามาได้",
+                "คุยกับช่างเองตรงเคาน์เตอร์",
+                "เช็กคมทุกชิ้นก่อนคืนงาน",
+              ].map((item, index) => (
+                <div
+                  className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur"
+                  key={item}
+                >
+                  <span className="mb-2 grid h-8 w-8 place-items-center rounded-full bg-amber-300 text-sm font-black text-black">
+                    {index + 1}
+                  </span>
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
 
-          <aside className="mx-auto w-full max-w-sm rounded-lg border border-amber-300/30 bg-black/70 p-5 shadow-[0_0_46px_rgba(0,0,0,0.62)] backdrop-blur fade-up md:justify-self-end">
-            <div className="rounded-lg bg-white p-3">
+          <aside className="mx-auto hidden w-full max-w-sm rounded-2xl border border-amber-300/25 bg-black/45 p-5 shadow-[0_0_46px_rgba(0,0,0,0.62)] backdrop-blur fade-up md:block md:justify-self-end">
+            <div className="rounded-2xl bg-white p-3">
               <img
                 alt="QR Code สำหรับแอดไลน์ร้านลับคมอุดรธานี By ช่างเจี๊ยบ"
                 className="aspect-square w-full"
@@ -422,32 +469,77 @@ export default function HomePage() {
               />
             </div>
             <div className="mt-4 text-center">
-              <p className="text-xl font-black text-amber-300">
-                สแกนแอดไลน์
+              <p className="text-xl font-extrabold text-amber-300">
+                สแกนแอดไลน์ร้าน
               </p>
               <p className="mt-1 text-sm leading-6 text-zinc-300">
-                ส่งรูปเครื่องมือให้ช่างช่วยประเมินก่อนเข้าร้านได้
+                ถ่ายรูปเครื่องมือส่งมาทางไลน์ ช่างดูให้ก่อนว่าลับได้ไหม
+                ราคาประมาณเท่าไหร่
               </p>
             </div>
           </aside>
         </div>
       </section>
 
-      <section id="services" className="relative px-4 py-16 md:px-6 md:py-20">
+      {/* แถบข้อมูลจริง — ข้อเท็จจริงล้วน ไม่มีตัวเลขกุ */}
+      <section className="border-y border-white/10 bg-black/40">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
+          {[
+            { big: "32+", sub: "รูปผลงานจริง" },
+            { big: "ทุกชนิด", sub: "รับลับคมทุกประเภท" },
+            { big: "มีหน้าร้าน", sub: "อุดรธานี เดินเข้ามาได้" },
+            { big: "ส่งรูปทางไลน์", sub: "ช่างประเมินราคาให้ก่อน" },
+          ].map((f) => (
+            <div key={f.sub} className="px-4 py-5 text-center">
+              <p className="text-lg font-extrabold text-amber-300 md:text-xl">
+                {f.big}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-zinc-400 md:text-sm">
+                {f.sub}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* แกลเลอรี — พระเอกของหน้า ขึ้นนำก่อนทุกอย่าง */}
+      <section
+        id="gallery"
+        className="scroll-mt-24 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
+      >
         <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Our Services" title="เลือกบริการลับคมที่ต้องการ">
-            งานลับคมสำหรับช่างตัดผม ร้านตัดขนสัตว์ ร้านอาหาร งานครัว
-            และเครื่องมือคมที่ต้องการความละเอียด
+          <SectionTitle
+            eyebrow="ผลงานจริง 32 รูป"
+            title="งานจริงจากหน้าร้าน แยกตามประเภท"
+          >
+            รูปงานที่ลับจริงในร้าน ไม่ใช่ภาพสต็อก แตะที่รูปเพื่อดูแบบเต็มจอ
+            มีตั้งแต่กรรไกร ปัตตาเลี่ยน มีด ใบเลื่อย ใบมีดวงกลม
+            ไปจนถึงเครื่องมืออุตสาหกรรม
           </SectionTitle>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <WorkGallery groups={workGroups} />
+        </div>
+      </section>
+
+      {/* บริการ */}
+      <section
+        id="services"
+        className="scroll-mt-24 border-t border-white/10 bg-[#0d0f0b] px-4 py-16 md:px-6 md:py-24"
+      >
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle eyebrow="บริการของเรา" title="รับลับคมอะไรบ้าง">
+            ลับให้ทุกอย่างที่มีคม ตั้งแต่กรรไกรช่างไปจนถึงใบมีดเครื่องจักร
+            ไม่แน่ใจว่าลับได้ไหม ส่งรูปมาถามช่างได้เลย
+          </SectionTitle>
+
+          <div className="grid gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {services.map((service) => (
               <article
-                className="group rounded-lg border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.09),rgba(255,255,255,0.035))] p-5 shadow-[0_14px_50px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-amber-300/70"
+                className="card-dark group p-5 transition hover:-translate-y-1 hover:border-amber-300/70"
                 key={service.title}
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
-                  <div className="grid h-14 w-14 place-items-center rounded-lg bg-amber-400 text-black shadow-[0_0_26px_rgba(245,158,11,0.28)]">
+                  <div className="grid h-14 w-14 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_26px_rgba(245,158,11,0.28)]">
                     <ToolIcon path={service.icon} />
                   </div>
                   <a
@@ -457,7 +549,7 @@ export default function HomePage() {
                     สอบถามราคา
                   </a>
                 </div>
-                <h3 className="text-2xl font-black leading-tight text-white">
+                <h3 className="text-2xl font-extrabold leading-tight text-white">
                   {service.title}
                 </h3>
                 <p className="mt-2 text-base font-bold text-amber-200">
@@ -467,152 +559,168 @@ export default function HomePage() {
               </article>
             ))}
           </div>
+
+          <p className="mt-8 text-center text-base text-zinc-300">
+            เลือกหมวดที่ต้องการแล้ว{" "}
+            <a
+              href="#request"
+              className="font-extrabold text-amber-300 underline-offset-4 hover:underline"
+            >
+              ส่งคำขอลับคมด้านล่างได้เลย ↓
+            </a>
+          </p>
         </div>
       </section>
 
-      <section id="request" className="px-4 py-16 md:px-6 md:py-20">
+      {/* ฟอร์มส่งคำขอออนไลน์ */}
+      <section
+        id="request"
+        className="scroll-mt-24 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
+      >
         <div className="mx-auto max-w-3xl">
-          <SectionTitle eyebrow="Online Request" title="ส่งคำขอลับคมออนไลน์">
-            เลือกหมวดคมที่จะนำมาลับ แล้วฝากเบอร์ไว้ — ช่างจะติดต่อกลับและช่วยประเมินให้
+          <SectionTitle eyebrow="ส่งงานออนไลน์" title="ส่งคำขอลับคม ช่างโทรกลับ">
+            เลือกหมวดของที่จะลับ แล้วฝากเบอร์ไว้
+            เดี๋ยวช่างโทรกลับไปคุยเรื่องคิวและราคาเอง
           </SectionTitle>
-          <div className="rounded-2xl border border-amber-300/20 bg-black/40 p-6 md:p-8">
+          <div className="card-gold p-6 md:p-8">
             <RequestForm />
           </div>
         </div>
       </section>
 
-      <section id="gallery" className="px-4 py-16 md:px-6 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle
-            eyebrow="Real Works"
-            title="ผลงานจริงจากร้าน แยกตามประเภทเครื่องมือ"
-          >
-            ภาพงานจริงจากลูกค้า แบ่งเป็นกรรไกร ปัตตาเลี่ยน มีด
-            ใบเลื่อย ใบมีดวงกลม และเครื่องมือเฉพาะทางหลายประเภท
-          </SectionTitle>
-
-          <WorkGallery groups={workGroups} />
-        </div>
-      </section>
-
+      {/* ราคา & สถานะงาน */}
       <section
         id="pricing"
-        className="border-y border-white/10 bg-[#10120e] px-4 py-16 md:px-6 md:py-20"
+        className="scroll-mt-24 border-t border-white/10 bg-[#0d0f0b] px-4 py-16 md:px-6 md:py-24"
       >
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-lg border border-amber-300/20 bg-black/50 p-6 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-              Price Estimate
-            </p>
-            <h2 className="mt-2 text-3xl font-black leading-tight text-white md:text-4xl">
-              สอบถามราคา
-            </h2>
-            <p className="mt-4 text-lg leading-9 text-zinc-200">
-              ราคาขึ้นอยู่กับชนิดเครื่องมือและสภาพใบมีด
-              ส่งรูปให้ช่างช่วยประเมินก่อนได้ก่อนนำเข้าร้าน
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-amber-400 px-6 font-black text-black transition hover:bg-amber-300"
-                href={lineUrl}
-              >
-                <LineIcon />
-                ส่งรูปเพื่อประเมินราคา
-              </a>
-              <a
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-amber-300/70 px-6 font-black text-amber-100 transition hover:bg-amber-300 hover:text-black"
-                href={lineUrl}
-              >
-                สอบถามราคาทาง Line
-              </a>
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            align="left"
+            eyebrow="ราคา & สถานะงาน"
+            title="สอบถามราคา & เช็กสถานะงาน"
+          />
+          <div className="grid gap-6 md:grid-cols-[0.95fr_1.05fr]">
+            <div className="card-gold p-6 md:p-8">
+              <h3 className="text-2xl font-extrabold text-white">สอบถามราคา</h3>
+              <p className="mt-3 text-lg leading-9 text-zinc-200">
+                ราคาขึ้นกับชนิดของและสภาพคม ถ่ายรูปส่งมาทางไลน์
+                ช่างบอกราคาคร่าว ๆ ให้ก่อนได้ ไม่ต้องเสียเที่ยวมาถึงร้าน
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <a className="btn-line" href={lineUrl}>
+                  <LineIcon />
+                  ส่งรูปให้ช่างประเมินราคา
+                </a>
+                <a className="btn-ghost-gold" href="#request">
+                  หรือ ส่งคำขอออนไลน์
+                </a>
+              </div>
             </div>
-          </div>
 
-          <div className="rounded-lg border border-white/10 bg-white p-6 text-slate-950 shadow-[0_24px_60px_rgba(0,0,0,0.36)]">
-            <h2 className="text-2xl font-black">เช็คสถานะงาน</h2>
-            <p className="mb-4 mt-1 text-base leading-7 text-slate-600">
-              กรอกรหัสงานบนใบรับงาน หรือสแกน QR Code บนใบรับงาน
-            </p>
-            <TrackLookupForm />
+            <div className="card-gold p-6 md:p-8">
+              <h3 className="text-2xl font-extrabold text-white">
+                เช็กสถานะงานของคุณ
+              </h3>
+              <p className="mb-4 mt-1 text-base leading-7 text-zinc-300">
+                กรอกรหัสงานที่อยู่บนใบรับงาน (หรือสแกน QR บนใบรับงาน)
+                ดูได้เลยว่างานถึงไหนแล้ว
+              </p>
+              <TrackLookupForm />
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="px-4 py-16 md:px-6 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-[1fr_0.72fr]">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-              Contact
-            </p>
-            <h2 className="mt-2 text-3xl font-black leading-tight text-white md:text-5xl">
-              ติดต่อร้านลับคมอุดรธานี By ช่างเจี๊ยบ
-            </h2>
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <a
-                className="rounded-lg border border-white/10 bg-zinc-950/70 p-5 transition hover:border-amber-300/70"
-                href={`tel:${mainPhone.replaceAll("-", "")}`}
-              >
-                <p className="text-sm font-bold text-amber-300">
-                  โทร ช่างเจี๊ยบ
-                </p>
-                <p className="mt-1 text-2xl font-black text-white">
-                  {mainPhone}
-                </p>
-              </a>
-              <a
-                className="rounded-lg border border-white/10 bg-zinc-950/70 p-5 transition hover:border-amber-300/70"
-                href={`tel:${secondPhone.replaceAll("-", "")}`}
-              >
-                <p className="text-sm font-bold text-amber-300">โทร ช่างเป็ด</p>
-                <p className="mt-1 text-2xl font-black text-white">
-                  {secondPhone}
-                </p>
-              </a>
-            </div>
-            <div className="mt-5 rounded-lg border border-white/10 bg-zinc-950/70 p-5">
-              <p className="font-black text-amber-200">
-                Facebook: ลับคมอุดรธานี by ช่างเจี๊ยบ
-              </p>
-              <p className="mt-3 leading-8 text-zinc-300">
-                รุ่งจิรา กุลศิริ ลับคมอุดรธานี 254/4 ถนนอดุลยเดช
-                ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000
-              </p>
-              <p className="mt-2 leading-8 text-zinc-300">
-                ร้านอยู่มาทาง ร.ร ดอนบอส ถนนโลกีย์ ตรงข้าม CR7 สนุกเกอร์
-              </p>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+      {/* ติดต่อร้าน */}
+      <section
+        id="contact"
+        className="scroll-mt-24 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
+      >
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            align="left"
+            eyebrow="ติดต่อร้าน"
+            title="ติดต่อร้านลับคมอุดรธานี By ช่างเจี๊ยบ"
+          />
+          <div className="grid gap-6 md:grid-cols-[1fr_0.72fr]">
+            <div>
+              <div className="grid gap-4 sm:grid-cols-2">
                 <a
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#1877f2] px-5 font-black text-white"
-                  href={facebookUrl}
+                  className="rounded-2xl border border-white/10 bg-zinc-950/70 p-5 transition hover:border-amber-300/70"
+                  href={`tel:${mainPhone.replaceAll("-", "")}`}
                 >
-                  f
-                  <span>Facebook</span>
+                  <p className="flex items-center gap-2 text-sm font-bold text-amber-300">
+                    <PhoneIcon />
+                    โทรหาช่างเจี๊ยบ
+                  </p>
+                  <p className="mt-1 text-2xl font-black text-white">
+                    {mainPhone}
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">แตะเพื่อโทร</p>
                 </a>
-                <Link
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 px-5 font-black text-zinc-100 transition hover:border-amber-300 hover:text-amber-200"
-                  href="/admin"
+                <a
+                  className="rounded-2xl border border-white/10 bg-zinc-950/70 p-5 transition hover:border-amber-300/70"
+                  href={`tel:${secondPhone.replaceAll("-", "")}`}
                 >
-                  สำหรับพนักงานร้าน
-                </Link>
+                  <p className="flex items-center gap-2 text-sm font-bold text-amber-300">
+                    <PhoneIcon />
+                    โทรหาช่างเป็ด
+                  </p>
+                  <p className="mt-1 text-2xl font-black text-white">
+                    {secondPhone}
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">แตะเพื่อโทร</p>
+                </a>
+              </div>
+              <div className="mt-5 rounded-2xl border border-white/10 bg-zinc-950/70 p-5">
+                <p className="font-extrabold text-amber-200">
+                  Facebook: ลับคมอุดรธานี by ช่างเจี๊ยบ
+                </p>
+                <p className="mt-3 leading-8 text-zinc-300">
+                  รุ่งจิรา กุลศิริ — ลับคมอุดรธานี / 254/4 ถนนอดุลยเดช
+                  ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000
+                </p>
+                <p className="mt-2 leading-8 text-zinc-300">
+                  ร้านอยู่ทาง ร.ร.ดอนบอสโก ถนนโพศรี ตรงข้าม CR7 สนุกเกอร์
+                </p>
+                <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                  <a className="btn-gold" href={mapsUrl}>
+                    <MapPinIcon />
+                    นำทางไป Google Maps
+                  </a>
+                  <a
+                    className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#1877f2] px-5 font-extrabold text-white"
+                    href={facebookUrl}
+                  >
+                    f
+                    <span>Facebook</span>
+                  </a>
+                  <Link
+                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/20 px-5 font-extrabold text-zinc-100 transition hover:border-amber-300 hover:text-amber-200"
+                    href="/admin"
+                  >
+                    สำหรับพนักงานร้าน
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          <aside className="rounded-lg border border-amber-300/30 bg-black/60 p-5">
-            <div className="rounded-lg bg-white p-3">
-              <img
-                alt="QR Code สำหรับเพิ่มเพื่อน Line ร้านลับคมอุดรธานี"
-                className="aspect-square w-full"
-                src={qrSrc}
-              />
-            </div>
-            <p className="mt-4 text-center text-xl font-black text-amber-300">
-              แอดไลน์สอบถามคิวและราคา
-            </p>
-            <p className="mt-2 text-center text-sm leading-6 text-zinc-300">
-              ถ่ายรูปเครื่องมือ ส่งเข้ามาให้ช่างประเมินได้ทันที
-            </p>
-          </aside>
+            <aside className="rounded-2xl border border-amber-300/30 bg-black/60 p-5">
+              <div className="rounded-2xl bg-white p-3">
+                <img
+                  alt="QR Code สำหรับเพิ่มเพื่อน Line ร้านลับคมอุดรธานี"
+                  className="aspect-square w-full"
+                  src={qrSrc}
+                />
+              </div>
+              <p className="mt-4 text-center text-xl font-extrabold text-amber-300">
+                แอดไลน์ ถามคิวและราคา
+              </p>
+              <p className="mt-2 text-center text-sm leading-6 text-zinc-300">
+                ถ่ายรูปเครื่องมือส่งเข้ามา ช่างประเมินให้ทันที
+              </p>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -625,48 +733,57 @@ export default function HomePage() {
                 ลับคมอุดรธานี
               </p>
               <p className="text-sm font-semibold text-zinc-300">
-                By ช่างเจี๊ยบ - คมจริง ใช้งานดี
+                By ช่างเจี๊ยบ — ลับคมอุดรธานี รับงานจริงทุกชนิด
               </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#06c755] px-4 font-black text-white"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#06c755] px-4 font-extrabold text-white"
               href={lineUrl}
             >
               <LineIcon />
-              Line
+              แอดไลน์
             </a>
             <a
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-amber-400 px-4 font-black text-black"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-amber-400 px-4 font-extrabold text-black"
               href={`tel:${mainPhone.replaceAll("-", "")}`}
             >
               <PhoneIcon />
-              โทร
+              โทรร้าน
             </a>
             <a
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#1877f2] px-5 font-black text-white"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#1877f2] px-5 font-extrabold text-white"
               href={facebookUrl}
             >
               Facebook
             </a>
           </div>
         </div>
-        <p className="mx-auto mt-6 max-w-7xl text-sm text-zinc-500">
-          © 2026 ลับคมอุดรธานี By ช่างเจี๊ยบ สงวนลิขสิทธิ์
-        </p>
+        <div className="mx-auto mt-6 flex max-w-7xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-zinc-500">
+            © 2026 ลับคมอุดรธานี By ช่างเจี๊ยบ · อุดรธานี
+          </p>
+          <a
+            className="text-sm font-semibold text-zinc-400 underline-offset-4 hover:text-amber-300 hover:underline"
+            href={mapsUrl}
+          >
+            แผนที่ร้าน
+          </a>
+        </div>
       </footer>
 
-      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-white/10 bg-black/90 p-3 backdrop-blur md:hidden">
+      {/* แถบปุ่มล่างสำหรับมือถือ — เผื่อขอบ safe-area ของ iPhone */}
+      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-white/10 bg-black/90 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur md:hidden">
         <a
-          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#06c755] text-base font-black text-white"
+          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#06c755] text-base font-extrabold text-white"
           href={lineUrl}
         >
           <LineIcon />
-          แอด Line
+          แอดไลน์
         </a>
         <a
-          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-amber-400 text-base font-black text-black"
+          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-amber-400 text-base font-extrabold text-black"
           href={`tel:${mainPhone.replaceAll("-", "")}`}
         >
           <PhoneIcon />

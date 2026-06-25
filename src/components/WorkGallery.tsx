@@ -65,10 +65,10 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
             <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-                  {group.items.length} Real Photos
+                  {group.items.length} รูปงานจริง
                 </p>
                 <h3
-                  className="mt-1 text-2xl font-black leading-tight text-white md:text-3xl"
+                  className="mt-1 text-2xl font-extrabold leading-tight text-white md:text-3xl"
                   id={`work-group-${groupIndex}`}
                 >
                   {group.category}
@@ -86,20 +86,35 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
                   <button
                     type="button"
                     onClick={() => setOpen(idx)}
-                    className="group block overflow-hidden rounded-lg border border-white/10 bg-zinc-950 text-left transition hover:-translate-y-1 hover:border-amber-300/70"
+                    className="group block overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 text-left transition hover:-translate-y-1 hover:border-amber-300/70"
                     key={`${group.category}-${item.title}`}
                   >
                     <span className="relative block">
                       <img
                         alt={`${item.title} - ${group.category}`}
-                        className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
+                        className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64 lg:h-72"
                         decoding="async"
                         loading="lazy"
                         src={item.image}
                       />
-                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
-                        <span className="rounded-full bg-amber-400 px-4 py-2 text-sm font-black text-black shadow-lg">
-                          ดูรูปเต็ม
+                      {/* ป้ายมุมรูปแบบถาวร — บอกผู้ใช้มือถือว่าแตะดูได้ (hover ใช้ไม่ได้บนจอสัมผัส) */}
+                      <span className="pointer-events-none absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-black/55 text-amber-300 ring-1 ring-white/15">
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                      </span>
+                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition group-hover:bg-black/25 group-hover:opacity-100">
+                        <span className="rounded-full bg-amber-400 px-4 py-2 text-sm font-extrabold text-black shadow-lg">
+                          แตะดูรูปเต็ม
                         </span>
                       </span>
                     </span>
@@ -107,7 +122,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
                       <span className="block text-sm font-bold text-amber-300">
                         {group.category}
                       </span>
-                      <span className="mt-1 block text-base font-black leading-7 text-white">
+                      <span className="mt-1 block text-base font-extrabold leading-7 text-white">
                         {item.title}
                       </span>
                     </span>
@@ -130,7 +145,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
             type="button"
             onClick={close}
             aria-label="ปิด"
-            className="absolute right-3 top-3 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-2xl font-bold text-white transition hover:bg-white/20 md:right-6 md:top-6"
+            className="absolute right-3 top-3 grid h-12 w-12 place-items-center rounded-full bg-black/50 ring-1 ring-white/15 text-2xl font-bold text-white transition hover:bg-white/20 md:right-6 md:top-6"
           >
             ✕
           </button>
@@ -141,7 +156,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
               prev();
             }}
             aria-label="รูปก่อนหน้า"
-            className="absolute left-2 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-3xl text-white transition hover:bg-white/20 md:left-6"
+            className="absolute left-2 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-black/50 ring-1 ring-white/15 text-3xl text-white transition hover:bg-white/20 md:left-6"
           >
             ‹
           </button>
@@ -152,7 +167,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
               next();
             }}
             aria-label="รูปถัดไป"
-            className="absolute right-2 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-3xl text-white transition hover:bg-white/20 md:right-6"
+            className="absolute right-2 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-black/50 ring-1 ring-white/15 text-3xl text-white transition hover:bg-white/20 md:right-6"
           >
             ›
           </button>
@@ -162,13 +177,13 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
             <img
               src={current.image}
               alt={`${current.title} - ${current.category}`}
-              className="mx-auto max-h-[80vh] w-auto rounded-lg object-contain"
+              className="mx-auto max-h-[80vh] w-auto rounded-xl object-contain"
             />
             <figcaption className="mt-3 text-center">
               <p className="text-sm font-bold text-amber-300">
                 {current.category}
               </p>
-              <p className="text-lg font-black text-white">{current.title}</p>
+              <p className="text-lg font-extrabold text-white">{current.title}</p>
               <p className="mt-1 text-sm text-zinc-400">
                 {(open ?? 0) + 1} / {flat.length}
               </p>

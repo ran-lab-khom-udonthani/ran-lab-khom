@@ -19,13 +19,13 @@ export function TrackLookupForm() {
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="เช่น KH-7F3A"
-        className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-3 text-lg uppercase tracking-wider outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10"
+        className="min-h-12 flex-1 rounded-xl border border-white/15 bg-black/40 px-4 text-lg uppercase tracking-wider text-white outline-none placeholder:text-zinc-500 focus:border-amber-300"
       />
       <button
         type="submit"
-        className="rounded-lg bg-slate-900 px-6 py-3 font-semibold text-white transition hover:bg-slate-700"
+        className="min-h-12 rounded-xl bg-amber-400 px-6 font-extrabold text-black transition hover:bg-amber-300"
       >
-        เช็ค
+        เช็กสถานะ
       </button>
     </form>
   );

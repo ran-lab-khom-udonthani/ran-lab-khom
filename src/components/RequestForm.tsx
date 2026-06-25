@@ -11,9 +11,9 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={pending || disabled}
-      className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-base font-black text-black transition hover:bg-amber-300 disabled:opacity-50"
+      className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-base font-extrabold text-black transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
     >
-      {pending ? "กำลังส่ง..." : "ส่งคำขอลับคม"}
+      {pending ? "กำลังส่ง..." : "ส่งคำขอให้ช่าง"}
     </button>
   );
 }
@@ -32,13 +32,13 @@ export function RequestForm() {
     return (
       <div className="rounded-2xl border border-amber-300/40 bg-black/50 p-8 text-center">
         <div className="text-4xl">✅</div>
-        <h3 className="mt-3 text-2xl font-black text-amber-300">
+        <h3 className="mt-3 text-2xl font-extrabold text-amber-300">
           ส่งคำขอเรียบร้อยแล้ว!
         </h3>
         <p className="mt-2 leading-8 text-zinc-200">
-          ทางร้านได้รับคำขอของคุณแล้ว เดี๋ยวช่างจะติดต่อกลับไปนะครับ
+          ร้านได้รับคำขอแล้ว เดี๋ยวช่างโทรกลับไปนะครับ
           <br />
-          หากต้องการคุยด่วน แอดไลน์มาได้เลย
+          ถ้าด่วน แอดไลน์มาคุยกับช่างได้เลย
         </p>
       </div>
     );
@@ -49,7 +49,7 @@ export function RequestForm() {
       {/* เลือกหมวด */}
       <div>
         <p className="mb-3 text-base font-bold text-amber-200">
-          1. เลือกหมวดคมที่จะนำมาลับ (เลือกได้หลายหมวด)
+          1. เลือกหมวดของที่จะลับ (เลือกได้หลายหมวด)
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {REQUEST_CATEGORIES.map((cat) => {
@@ -76,6 +76,11 @@ export function RequestForm() {
         {selected.map((c) => (
           <input key={c} type="hidden" name="category" value={c} />
         ))}
+        {selected.length === 0 && (
+          <p className="mt-2 text-xs text-zinc-400">
+            เลือกอย่างน้อย 1 หมวดก่อนส่ง
+          </p>
+        )}
       </div>
 
       {/* ข้อมูลติดต่อ */}
@@ -113,7 +118,7 @@ export function RequestForm() {
         </label>
         <input
           name="note"
-          placeholder="เช่น จำนวน, ยี่ห้อ, หรือสะดวกให้ติดต่อตอนไหน"
+          placeholder="เช่น กรรไกร 2 เล่ม ยี่ห้ออะไร หรือสะดวกให้โทรกลับตอนไหน"
           className="min-h-12 w-full rounded-xl border border-white/15 bg-black/40 px-4 text-white placeholder:text-zinc-500 outline-none focus:border-amber-300"
         />
       </div>
@@ -126,7 +131,7 @@ export function RequestForm() {
 
       <SubmitButton disabled={selected.length === 0} />
       <p className="text-center text-sm text-zinc-400">
-        ส่งคำขอแล้วช่างจะติดต่อกลับ — หรือแอดไลน์เพื่อสอบถามด่วน
+        ส่งแล้วช่างจะโทรกลับ ถ้าด่วนแอดไลน์มาคุยได้เลย
       </p>
     </form>
   );
