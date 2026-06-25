@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   checkStaffPassword,
@@ -23,6 +24,8 @@ async function requireAuth() {
 export async function loginAction(_prev: unknown, formData: FormData) {
   const password = String(formData.get("password") ?? "");
   if (!checkStaffPassword(password)) {
+    // หน่วงเวลาเมื่อรหัสผิด เพื่อชะลอการเดารหัสแบบอัตโนมัติ (brute-force)
+    await new Promise((resolve) => setTimeout(resolve, 700));
     return { error: "รหัสผ่านไม่ถูกต้อง" };
   }
   await createSession();
@@ -93,20 +96,32 @@ export async function createJobAction(formData: FormData) {
     (sum, it) => sum + it.quantity * it.unitPrice,
     0
   );
-  const code = await uniqueCode();
-  const name = customerName || `ลูกค้า ${code}`;
-
-  const job = await prisma.job.create({
-    data: {
-      code,
-      customerName: name,
-      customerPhone,
-      note,
-      readyBy,
-      totalPrice,
-      items: { create: items },
-    },
-  });
+  // สร้างงานแบบ retry — ถ้ารหัสชนกัน (race) ให้สุ่มใหม่แล้วลองอีกครั้ง
+  let job: Awaited<ReturnType<typeof prisma.job.create>> | undefined;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const code = await uniqueCode();
+    const name = customerName || `ลูกค้า ${code}`;
+    try {
+      job = await prisma.job.create({
+        data: {
+          code,
+          customerName: name,
+          customerPhone,
+          note,
+          readyBy,
+          totalPrice,
+          items: { create: items },
+        },
+      });
+      break;
+    } catch (e) {
+      const dup =
+        e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002";
+      if (dup && attempt < 4) continue; // รหัสซ้ำ สุ่มใหม่
+      throw e;
+    }
+  }
+  if (!job) throw new Error("สร้างงานไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
 
   revalidatePath("/admin");
   redirect(`/admin/jobs/${job.id}?new=1`);
@@ -122,14 +137,21 @@ export async function updateStatusAction(formData: FormData) {
     throw new Error("ข้อมูลไม่ถูกต้อง");
   }
 
+  const job = await prisma.job.findUnique({ where: { id: jobId } });
+  if (!job) throw new Error("ไม่พบงาน");
+
   const now = new Date();
   await prisma.job.update({
     where: { id: jobId },
     data: {
       status,
+      // ตั้งเวลาครั้งแรกที่เข้าสถานะนั้น และ "ไม่ลบ" ของเดิมเมื่อถอยสถานะ/ยกเลิก
       doneAt:
-        status === "DONE" || status === "PICKED_UP" ? now : null,
-      pickedUpAt: status === "PICKED_UP" ? now : null,
+        status === "DONE" || status === "PICKED_UP"
+          ? job.doneAt ?? now
+          : job.doneAt,
+      pickedUpAt:
+        status === "PICKED_UP" ? job.pickedUpAt ?? now : job.pickedUpAt,
     },
   });
 
@@ -188,7 +210,14 @@ export async function deleteJobAction(formData: FormData) {
   const jobId = String(formData.get("jobId") ?? "");
   if (!jobId) throw new Error("ข้อมูลไม่ถูกต้อง");
 
-  await prisma.job.delete({ where: { id: jobId } });
+  try {
+    await prisma.job.delete({ where: { id: jobId } });
+  } catch (e) {
+    // ถ้างานถูกลบไปแล้ว (เช่น กดซ้ำ) ถือว่าสำเร็จ
+    const gone =
+      e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025";
+    if (!gone) throw e;
+  }
   revalidatePath("/admin");
   redirect("/admin");
 }

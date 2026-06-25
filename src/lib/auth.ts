@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { createHash, timingSafeEqual } from "crypto";
 import { SignJWT, jwtVerify } from "jose";
 
 const SESSION_COOKIE = "khom_session";
@@ -15,7 +16,10 @@ function secretKey(): Uint8Array {
 export function checkStaffPassword(password: string): boolean {
   const expected = process.env.STAFF_PASSWORD;
   if (!expected) throw new Error("ยังไม่ได้ตั้งค่า STAFF_PASSWORD ในไฟล์ .env");
-  return password === expected;
+  // เทียบแบบ constant-time (แฮชก่อนเพื่อให้ความยาวเท่ากันเสมอ) กัน timing attack
+  const a = createHash("sha256").update(password).digest();
+  const b = createHash("sha256").update(expected).digest();
+  return timingSafeEqual(a, b);
 }
 
 // สร้างเซสชันหลังล็อกอินสำเร็จ

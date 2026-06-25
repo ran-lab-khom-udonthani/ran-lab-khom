@@ -28,10 +28,13 @@ npm run dev            # รันเซิร์ฟเวอร์ที่ htt
 
 | ตัวแปร | คำอธิบาย |
 |--------|----------|
-| `DATABASE_URL` | ที่อยู่ฐานข้อมูล (dev = SQLite) |
-| `AUTH_SECRET` | กุญแจเซ็นเซสชันล็อกอิน — **สุ่มใหม่ก่อนขึ้นออนไลน์** |
-| `STAFF_PASSWORD` | รหัสผ่านพนักงานร้าน |
+| `DATABASE_URL` | Postgres connection string (pooled) |
+| `DATABASE_URL_UNPOOLED` | Postgres connection **ตรง** (ไม่ผ่าน pooler) — ใช้ตอน `prisma db push` |
+| `AUTH_SECRET` | กุญแจเซ็นเซสชันล็อกอิน — `openssl rand -hex 32` |
+| `STAFF_PASSWORD` | รหัสผ่านพนักงาน — **ตั้งให้ยาว ≥16 ตัว** (ระบบไม่มี rate-limit เต็มรูปแบบ) |
 | `NEXT_PUBLIC_SHOP_NAME` | ชื่อร้านที่แสดงบนหน้าจอ/ใบรับงาน |
+| `NEXT_PUBLIC_LINE_URL` | ลิงก์ปุ่มแอด LINE หน้า Landing |
+| `NEXT_PUBLIC_FACEBOOK_URL` | ลิงก์ปุ่ม Facebook หน้า Landing |
 
 ## คำสั่งที่มีให้
 
@@ -46,7 +49,11 @@ npm run dev            # รันเซิร์ฟเวอร์ที่ htt
 
 ## ขึ้นออนไลน์ (Vercel)
 
-1. เปลี่ยน `provider` ใน `prisma/schema.prisma` เป็น `postgresql`
-2. ใช้ Postgres ฟรีจาก [Neon](https://neon.tech) หรือ [Supabase](https://supabase.com) แล้วตั้ง `DATABASE_URL`
-3. ตั้ง env (`AUTH_SECRET`, `STAFF_PASSWORD`, `NEXT_PUBLIC_SHOP_NAME`) บน Vercel
-4. Deploy — QR Code จะชี้ไปยังโดเมนจริงอัตโนมัติ
+> schema เป็น PostgreSQL แล้ว และ `npm run build` จะรัน `prisma db push` สร้างตารางให้อัตโนมัติ
+
+1. Import repo เข้า [Vercel](https://vercel.com)
+2. เพิ่มฐานข้อมูล: Project → **Storage → Neon** — Neon จะตั้ง `DATABASE_URL` และ `DATABASE_URL_UNPOOLED` ให้อัตโนมัติ
+   - ถ้าตั้งเอง: `DATABASE_URL_UNPOOLED` ต้องเป็น connection **ตรง (ไม่ผ่าน `-pooler`)** ไม่งั้น `prisma db push` ตอน build จะล้ม
+3. ตั้ง env บน Vercel: `AUTH_SECRET` (`openssl rand -hex 32`), `STAFF_PASSWORD` (ยาว ≥16 ตัว), `NEXT_PUBLIC_SHOP_NAME`, `NEXT_PUBLIC_LINE_URL`, `NEXT_PUBLIC_FACEBOOK_URL`
+   - ⚠️ ถ้าไม่ตั้ง `AUTH_SECRET`/`STAFF_PASSWORD` → build เขียวได้ แต่หน้า `/admin` จะ error 500 ตอนใช้งาน
+4. Deploy — QR Code / ลิงก์เช็คสถานะจะชี้ไปยังโดเมนจริงอัตโนมัติ

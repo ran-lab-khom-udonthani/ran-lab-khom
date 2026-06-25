@@ -33,9 +33,14 @@ export function formatThaiDateTime(
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 export function generateJobCode(): string {
+  // ใช้ตัวสุ่มเชิงเข้ารหัส (Web Crypto มีทั้งฝั่ง server/บราวเซอร์) + 6 หลัก
+  // 32^6 ≈ 1.07 พันล้าน เดายาก และยังอ่านง่ายบนใบรับงาน
+  const bytes = new Uint8Array(6);
+  globalThis.crypto.getRandomValues(bytes);
   let body = "";
-  for (let i = 0; i < 4; i++) {
-    body += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  for (let i = 0; i < bytes.length; i++) {
+    // 256 หารด้วย 32 ลงตัว → ไม่มี modulo bias
+    body += CODE_ALPHABET[bytes[i] % CODE_ALPHABET.length];
   }
   return `KH-${body}`;
 }

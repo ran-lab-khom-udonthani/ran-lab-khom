@@ -13,8 +13,9 @@ const notoThai = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: SHOP_NAME,
-  description: "ระบบรับงานลับคม กรรไกร ปัตตาเลี่ยน มีดแร่ปลา และคมอื่นๆ",
+  title: `${SHOP_NAME} By ช่างเจี๊ยบ`,
+  description:
+    "บริการลับคมกรรไกร ปัตตาเลี่ยน มีด แร่ปลา และเครื่องมือคมทุกชนิดในอุดรธานี",
 };
 
 export const viewport: Viewport = {
