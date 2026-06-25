@@ -53,21 +53,6 @@ const services = [
   },
 ];
 
-const processSteps = [
-  "ส่งรูปหรือเอาเครื่องมือเข้ามาที่ร้าน",
-  "ช่างตรวจสภาพคมและใบมีด",
-  "ลับคมด้วยเครื่องมือเฉพาะทาง",
-  "ทดสอบความคมก่อนส่งมอบ",
-];
-
-const trustItems = [
-  "ใช้เครื่องลับคม Resin Diamond",
-  "งานละเอียดโดยช่างมีประสบการณ์",
-  "เหมาะกับช่างตัดผม ช่างตัดขนสัตว์ ร้านอาหาร และงานครัว",
-  "มีหน้าร้านจริง ติดต่อได้จริง",
-  "ตรวจเช็คก่อนส่งมอบทุกชิ้น",
-];
-
 const workGroups = [
   {
     category: "กรรไกร / คีมตัดหนัง",
@@ -345,12 +330,6 @@ export default function HomePage() {
             <a className="transition hover:text-amber-300" href="#request">
               ขอลับคม
             </a>
-            <a className="transition hover:text-amber-300" href="#experience">
-              บรรยากาศร้าน
-            </a>
-            <a className="transition hover:text-amber-300" href="#process">
-              ขั้นตอนบริการ
-            </a>
             <a className="transition hover:text-amber-300" href="#gallery">
               ตัวอย่างงาน
             </a>
@@ -501,136 +480,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section
-        id="experience"
-        className="relative overflow-hidden border-y border-white/10 bg-[#10120e] py-16 md:py-24"
-      >
-        <div className="absolute inset-0 opacity-35">
-          <img
-            alt=""
-            className="h-full w-full object-cover"
-            decoding="async"
-            loading="lazy"
-            src="/assets/sharpening-studio-hero.webp"
-          />
-        </div>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#070806_0%,rgba(7,8,6,0.82)_46%,rgba(7,8,6,0.48)_100%)]" />
-
-        <div className="relative mx-auto grid max-w-7xl gap-8 px-4 md:grid-cols-[0.9fr_1.1fr] md:px-6">
-          <div className="self-center">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-              Interior Experience
-            </p>
-            <h2 className="mt-3 text-3xl font-black leading-tight text-white md:text-5xl">
-              บรรยากาศร้านลับคมระดับมืออาชีพ
-            </h2>
-            <p className="mt-5 text-lg leading-9 text-zinc-200">
-              ออกแบบพื้นที่ทำงานสะอาด เป็นระเบียบ แยกโซนรับงาน โซนลับคม
-              โซนตรวจเช็ค และโซนจัดแสดงอุปกรณ์ เพื่อให้ลูกค้ามั่นใจในทุกขั้นตอน
-            </p>
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {[
-                "เคาน์เตอร์รับงาน",
-                "ผนังโชว์กรรไกร",
-                "เครื่องลับคมบนโต๊ะ",
-                "ตู้โชว์ปัตตาเลี่ยนและอุปกรณ์",
-              ].map((item) => (
-                <div
-                  className="rounded-lg border border-amber-300/20 bg-black/40 px-4 py-3 text-base font-bold text-zinc-100"
-                  key={item}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="overflow-hidden rounded-lg border border-white/10 bg-black/40 sm:col-span-2">
-              <img
-                alt="ช่างกำลังตรวจและลับคมกรรไกรด้วยเครื่องมือเฉพาะทาง"
-                className="h-72 w-full object-cover md:h-96"
-                decoding="async"
-                loading="lazy"
-                src="/assets/technician-sharpening.webp"
-              />
-            </div>
-            <div className="overflow-hidden rounded-lg border border-white/10 bg-black/40">
-              <img
-                alt="เคาน์เตอร์รับงานภายในร้านลับคมโทนทองดำ"
-                className="h-52 w-full object-cover object-[42%_58%]"
-                decoding="async"
-                loading="lazy"
-                src="/assets/sharpening-studio-hero.webp"
-              />
-            </div>
-            <div className="overflow-hidden rounded-lg border border-white/10 bg-black/40">
-              <img
-                alt="ตู้โชว์สินค้าและอุปกรณ์ลับคมภายในร้าน"
-                className="h-52 w-full object-cover object-right"
-                decoding="async"
-                loading="lazy"
-                src="/assets/sharpening-studio-hero.webp"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="process" className="px-4 py-16 md:px-6 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Service Flow" title="ขั้นตอนการใช้บริการ" />
-          <div className="grid gap-4 md:grid-cols-4">
-            {processSteps.map((step, index) => (
-              <div
-                className="relative rounded-lg border border-white/10 bg-zinc-950/70 p-5"
-                key={step}
-              >
-                <div className="mb-5 grid h-14 w-14 place-items-center rounded-full bg-amber-400 text-2xl font-black text-black">
-                  {index + 1}
-                </div>
-                <p className="text-lg font-black leading-8 text-white">{step}</p>
-                {index < processSteps.length - 1 ? (
-                  <span className="absolute right-[-18px] top-12 hidden h-px w-9 bg-amber-300/70 md:block" />
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[linear-gradient(135deg,#15140f,#080806_56%,#171717)] px-4 py-16 md:px-6 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Trust" title="ทำไมต้องลับคมกับช่างเจี๊ยบ" />
-          <div className="grid gap-4 md:grid-cols-5">
-            {trustItems.map((item) => (
-              <div
-                className="rounded-lg border border-amber-300/20 bg-black/40 p-5 text-center"
-                key={item}
-              >
-                <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full border border-amber-300 bg-amber-400/10 text-amber-300">
-                  <svg
-                    aria-hidden="true"
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                </div>
-                <p className="text-base font-bold leading-8 text-zinc-100">
-                  {item}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="gallery" className="px-4 py-16 md:px-6 md:py-20">
         <div className="mx-auto max-w-7xl">
           <SectionTitle
@@ -640,27 +489,6 @@ export default function HomePage() {
             ภาพงานจริงจากลูกค้า แบ่งเป็นกรรไกร ปัตตาเลี่ยน มีด
             ใบเลื่อย ใบมีดวงกลม และเครื่องมือเฉพาะทางหลายประเภท
           </SectionTitle>
-
-          <div className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {workGroups.map((group) => (
-              <div
-                className="rounded-lg border border-amber-300/20 bg-black/40 p-4"
-                key={group.category}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-black leading-7 text-amber-200">
-                    {group.category}
-                  </h3>
-                  <span className="rounded-full bg-amber-400 px-3 py-1 text-xs font-black text-black">
-                    {group.items.length} รูป
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-zinc-300">
-                  {group.description}
-                </p>
-              </div>
-            ))}
-          </div>
 
           <div className="space-y-12">
             {workGroups.map((group, groupIndex) => (
