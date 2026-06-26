@@ -684,9 +684,9 @@ export default async function HomePage() {
       {/* การ์ดที่อยู่จัดส่ง — สไตล์ป้าย/สติกเกอร์หน้าพัสดุ ปณ. */}
       <section className="border-y border-white/10 bg-[#070806] px-4 py-12 md:py-16">
         <div className="mx-auto max-w-xl">
-          <div className="fade-up relative overflow-hidden rounded-2xl bg-[#fbf7ec] text-zinc-900 shadow-[0_18px_60px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
-            {/* แถบหัวป้าย */}
-            <div className="flex items-center justify-between gap-3 bg-amber-400 px-5 py-3">
+          <div className="fade-up relative overflow-hidden rounded-2xl border border-amber-300/30 bg-[linear-gradient(145deg,rgba(245,158,11,0.12),rgba(255,255,255,0.04))] shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
+            {/* แถบหัวป้าย (ทอง) */}
+            <div className="flex items-center justify-between gap-3 border-b border-amber-300/20 bg-amber-400 px-5 py-3">
               <span className="inline-flex items-center gap-2 text-base font-extrabold uppercase tracking-[0.14em] text-black">
                 <svg
                   aria-hidden="true"
@@ -712,16 +712,33 @@ export default async function HomePage() {
 
             {/* เนื้อหาที่อยู่ — ชิดซ้ายเหมือนจ่าหน้าพัสดุ */}
             <div className="space-y-3 px-6 py-6">
+              {/* โลโก้หมุดตำแหน่งร้าน */}
+              <span className="address-pin grid h-16 w-16 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_34px_rgba(245,158,11,0.5)]">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="h-8 w-8"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </span>
+
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                <p className="text-xs font-bold uppercase tracking-widest text-amber-300/80">
                   ผู้รับ / กรุณาส่งถึง
                 </p>
-                <p className="mt-1 text-2xl font-extrabold leading-tight text-zinc-900 md:text-3xl">
+                <p className="mt-1 text-2xl font-extrabold leading-tight text-white md:text-3xl">
                   รุจิรา กุลศร
                 </p>
               </div>
 
-              <p className="text-lg font-bold leading-8 text-zinc-800">
+              <p className="text-lg font-bold leading-8 text-zinc-100">
                 ลับคมอุดรธานี
                 <br />
                 254/4 ถนนอดุลยเดช
@@ -731,11 +748,11 @@ export default async function HomePage() {
                 จังหวัดอุดรธานี 41000
               </p>
 
-              <div className="flex items-center gap-2 border-t border-dashed border-zinc-300 pt-3">
-                <span className="text-base font-bold text-zinc-600">โทร.</span>
+              <div className="flex items-center gap-2 border-t border-dashed border-white/15 pt-3">
+                <span className="text-base font-bold text-zinc-400">โทร.</span>
                 <a
                   href={`tel:${mainPhone.replaceAll("-", "")}`}
-                  className="text-xl font-extrabold tracking-wide text-zinc-900 underline-offset-2 hover:underline"
+                  className="text-xl font-extrabold tracking-wide text-amber-300 underline-offset-2 hover:underline"
                 >
                   {mainPhone}
                 </a>
