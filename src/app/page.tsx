@@ -683,64 +683,66 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* การ์ดที่อยู่ร้าน (อนิเมชัน) — แทนแถบสถิติเดิม */}
+      {/* การ์ดที่อยู่จัดส่ง — สไตล์ป้าย/สติกเกอร์หน้าพัสดุ ปณ. */}
       <section className="border-y border-white/10 bg-[#070806] px-4 py-12 md:py-16">
-        <div className="mx-auto max-w-3xl">
-          <div className="relative overflow-hidden rounded-2xl border border-amber-300/30 bg-[linear-gradient(145deg,rgba(245,158,11,0.10),rgba(255,255,255,0.035))] p-7 text-center shadow-[0_14px_50px_rgba(0,0,0,0.32)] md:p-9">
-            {/* แสงทองวิ่งผ่านการ์ด */}
-            <span className="card-shimmer pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-[linear-gradient(90deg,transparent,rgba(245,158,11,0.18),transparent)]" />
-
-            <p className="fade-up text-sm font-bold uppercase tracking-[0.18em] text-amber-300">
-              ที่อยู่จัดส่ง
-            </p>
-
-            <span className="address-pin mx-auto mb-4 mt-3 grid h-16 w-16 place-items-center rounded-2xl bg-amber-400 text-black shadow-[0_0_34px_rgba(245,158,11,0.5)]">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-8 w-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </span>
-
-            <p
-              className="fade-up text-3xl font-extrabold text-amber-300 md:text-4xl"
-              style={{ animationDelay: "120ms" }}
-            >
-              ลับคมอุดรธานี
-            </p>
-            <p
-              className="fade-up mt-1 text-lg font-bold text-white"
-              style={{ animationDelay: "200ms" }}
-            >
-              รุจิรา กุลศร
-            </p>
-
-            <div className="fade-up mt-5" style={{ animationDelay: "300ms" }}>
-              <a
-                href={`tel:${mainPhone.replaceAll("-", "")}`}
-                className="phone-pulse inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-lg font-extrabold text-black"
-              >
-                <PhoneIcon />
-                {mainPhone}
-              </a>
+        <div className="mx-auto max-w-xl">
+          <div className="fade-up relative overflow-hidden rounded-2xl bg-[#fbf7ec] text-zinc-900 shadow-[0_18px_60px_rgba(0,0,0,0.45)] ring-1 ring-black/10">
+            {/* แถบหัวป้าย */}
+            <div className="flex items-center justify-between gap-3 bg-amber-400 px-5 py-3">
+              <span className="inline-flex items-center gap-2 text-base font-extrabold uppercase tracking-[0.14em] text-black">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                  <path d="m3.27 6.96 8.73 5.05 8.73-5.05" />
+                  <path d="M12 22.08V12" />
+                </svg>
+                ที่อยู่จัดส่ง
+              </span>
+              {/* ตราไปรษณีย์จำลอง */}
+              <span className="rounded-md border-2 border-dashed border-black/50 px-2 py-1 text-[11px] font-black leading-none text-black/70">
+                ปณ.
+              </span>
             </div>
 
-            <p
-              className="fade-up mt-5 text-lg leading-9 text-zinc-100"
-              style={{ animationDelay: "400ms" }}
-            >
-              ลับคมอุดรธานี · 254/4 ถนนอดุลยเดช
-              <br />
-              ตำบลหมากแข้ง อ.เมือง จ.อุดรธานี 41000
-            </p>
+            {/* เนื้อหาที่อยู่ — ชิดซ้ายเหมือนจ่าหน้าพัสดุ */}
+            <div className="space-y-3 px-6 py-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                  ผู้รับ / กรุณาส่งถึง
+                </p>
+                <p className="mt-1 text-2xl font-extrabold leading-tight text-zinc-900 md:text-3xl">
+                  นางสาวรุจิรา กุลศร
+                </p>
+              </div>
+
+              <p className="text-lg font-bold leading-8 text-zinc-800">
+                ลับคมอุดรธานี
+                <br />
+                254/4 ถนนอดุลยเดช
+                <br />
+                ตำบลหมากแข้ง อำเภอเมือง
+                <br />
+                จังหวัดอุดรธานี 41000
+              </p>
+
+              <div className="flex items-center gap-2 border-t border-dashed border-zinc-300 pt-3">
+                <span className="text-base font-bold text-zinc-600">โทร.</span>
+                <a
+                  href={`tel:${mainPhone.replaceAll("-", "")}`}
+                  className="text-xl font-extrabold tracking-wide text-zinc-900 underline-offset-2 hover:underline"
+                >
+                  {mainPhone}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
