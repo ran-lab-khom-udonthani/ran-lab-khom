@@ -34,7 +34,7 @@ async function toWebp(file: File, maxSize = 1280, quality = 0.82): Promise<File>
 export function GalleryUploader() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [category, setCategory] = useState<string>(GALLERY_CATEGORIES[0]);
+  const [category, setCategory] = useState<string>("AUTO");
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(0);
@@ -90,12 +90,18 @@ export function GalleryUploader() {
         disabled={busy}
         className="mt-1 min-h-14 w-full rounded-xl border-2 border-slate-300 bg-white px-4 text-lg text-slate-900"
       >
+        <option value="AUTO">🤖 ให้ AI แยกหมวดให้อัตโนมัติ (แนะนำ)</option>
         {GALLERY_CATEGORIES.map((c) => (
           <option key={c} value={c}>
             {c}
           </option>
         ))}
       </select>
+      {category === "AUTO" && (
+        <p className="mt-1 text-sm text-slate-500">
+          AI จะดูรูปแล้วจัดหมวดให้เอง — แค่เลือกรูปแล้วอัปได้เลย
+        </p>
+      )}
 
       <label className="mt-4 block text-lg font-semibold text-slate-700">
         2. เลือกรูป

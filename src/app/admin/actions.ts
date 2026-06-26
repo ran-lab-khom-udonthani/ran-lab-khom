@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { randomUUID } from "crypto";
 import { Prisma } from "@prisma/client";
 import { put, del } from "@vercel/blob";
+import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
 import {
   checkStaffPassword,
@@ -17,6 +18,7 @@ import {
   isValidStatus,
   isValidRequestStatus,
   isValidGalleryCategory,
+  GALLERY_CATEGORIES,
 } from "@/lib/constants";
 
 async function requireAuth() {
@@ -259,24 +261,79 @@ export async function deleteRequestAction(formData: FormData) {
 
 // ---------- แกลเลอรีรูปงาน ----------
 
+// ให้ AI (Claude Haiku) ดูรูปแล้วเลือกหมวด — ใช้เมื่อผู้ใช้เลือกโหมด "AUTO"
+async function classifyGalleryCategory(buffer: Buffer): Promise<string> {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error(
+      "ยังไม่ได้เปิด AI แยกหมวด (ต้องตั้งค่า ANTHROPIC_API_KEY) — หรือเลือกหมวดเองก่อนอัป"
+    );
+  }
+  const anthropic = new Anthropic();
+  const list = GALLERY_CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join("\n");
+  const msg = await anthropic.messages.create({
+    model: "claude-haiku-4-5",
+    max_tokens: 16,
+    system:
+      "คุณช่วยจัดหมวดรูปงานลับคมของร้าน ดูรูปแล้วเลือกหมวดที่ตรงที่สุด ตอบเฉพาะตัวเลขหมวดเท่านั้น",
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: "image/webp",
+              data: buffer.toString("base64"),
+            },
+          },
+          {
+            type: "text",
+            text: `รูปนี้เป็นเครื่องมือมีคมประเภทไหน เลือก 1 หมวดที่ตรงที่สุด แล้วตอบเฉพาะตัวเลข (1-${GALLERY_CATEGORIES.length}):\n${list}`,
+          },
+        ],
+      },
+    ],
+  });
+  let raw = "";
+  for (const b of msg.content) {
+    if (b.type === "text") {
+      raw = b.text;
+      break;
+    }
+  }
+  const match = raw.match(/\d+/);
+  const idx = match ? parseInt(match[0], 10) - 1 : -1;
+  if (idx >= 0 && idx < GALLERY_CATEGORIES.length) {
+    return GALLERY_CATEGORIES[idx];
+  }
+  // เดาไม่ได้ → ใส่หมวด "เครื่องมือเฉพาะทาง" (หมวดสุดท้าย) เป็นค่าเริ่มต้น
+  return GALLERY_CATEGORIES[GALLERY_CATEGORIES.length - 1];
+}
+
 // อัปรูป 1 ไฟล์ (ฝั่ง client ย่อ+แปลง webp มาแล้ว) ขึ้น Vercel Blob + บันทึก DB
 export async function uploadGalleryPhotoAction(formData: FormData) {
   await requireAuth();
   const file = formData.get("file");
-  const category = String(formData.get("category") ?? "").trim();
+  let category = String(formData.get("category") ?? "").trim();
   const caption = String(formData.get("caption") ?? "").trim() || null;
 
   if (!(file instanceof File) || file.size === 0) {
     throw new Error("ไม่พบไฟล์รูป");
-  }
-  if (!isValidGalleryCategory(category)) {
-    throw new Error("หมวดไม่ถูกต้อง");
   }
   if (file.size > 8 * 1024 * 1024) {
     throw new Error("ไฟล์ใหญ่เกินไป");
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
+
+  // โหมด AUTO = ให้ AI แยกหมวดให้; ไม่งั้นใช้หมวดที่ผู้ใช้เลือก
+  if (category === "AUTO") {
+    category = await classifyGalleryCategory(buffer);
+  } else if (!isValidGalleryCategory(category)) {
+    throw new Error("หมวดไม่ถูกต้อง");
+  }
+
   const blob = await put(`gallery/${randomUUID()}.webp`, buffer, {
     access: "public",
     contentType: "image/webp",

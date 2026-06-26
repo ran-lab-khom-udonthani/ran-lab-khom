@@ -16,6 +16,7 @@
     "seed": "node --import tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.106.0",
     "@prisma/client": "^6.2.1",
     "@vercel/blob": "^2.5.0",
     "jose": "^5.9.6",
