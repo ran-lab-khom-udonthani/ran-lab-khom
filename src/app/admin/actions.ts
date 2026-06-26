@@ -2,7 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { randomUUID } from "crypto";
 import { Prisma } from "@prisma/client";
+import { put, del } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import {
   checkStaffPassword,
@@ -11,7 +13,11 @@ import {
   isAuthenticated,
 } from "@/lib/auth";
 import { generateJobCode, parseDateInput } from "@/lib/utils";
-import { isValidStatus, isValidRequestStatus } from "@/lib/constants";
+import {
+  isValidStatus,
+  isValidRequestStatus,
+  isValidGalleryCategory,
+} from "@/lib/constants";
 
 async function requireAuth() {
   if (!(await isAuthenticated())) {
@@ -249,4 +255,63 @@ export async function deleteRequestAction(formData: FormData) {
   }
   revalidatePath("/admin/requests");
   revalidatePath("/admin");
+}
+
+// ---------- แกลเลอรีรูปงาน ----------
+
+// อัปรูป 1 ไฟล์ (ฝั่ง client ย่อ+แปลง webp มาแล้ว) ขึ้น Vercel Blob + บันทึก DB
+export async function uploadGalleryPhotoAction(formData: FormData) {
+  await requireAuth();
+  const file = formData.get("file");
+  const category = String(formData.get("category") ?? "").trim();
+  const caption = String(formData.get("caption") ?? "").trim() || null;
+
+  if (!(file instanceof File) || file.size === 0) {
+    throw new Error("ไม่พบไฟล์รูป");
+  }
+  if (!isValidGalleryCategory(category)) {
+    throw new Error("หมวดไม่ถูกต้อง");
+  }
+  if (file.size > 8 * 1024 * 1024) {
+    throw new Error("ไฟล์ใหญ่เกินไป");
+  }
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const blob = await put(`gallery/${randomUUID()}.webp`, buffer, {
+    access: "public",
+    contentType: "image/webp",
+  });
+
+  await prisma.galleryPhoto.create({
+    data: { url: blob.url, category, caption },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin/gallery");
+}
+
+// ลบรูปออกจากแกลเลอรี (ลบไฟล์บน Blob + record ใน DB)
+export async function deleteGalleryPhotoAction(formData: FormData) {
+  await requireAuth();
+  const id = String(formData.get("id") ?? "");
+  if (!id) throw new Error("ข้อมูลไม่ถูกต้อง");
+
+  const photo = await prisma.galleryPhoto.findUnique({ where: { id } });
+  if (photo) {
+    try {
+      await del(photo.url);
+    } catch {
+      // ลบไฟล์บน blob ไม่สำเร็จก็ลบ record ต่อ (กันรูปค้างในระบบ)
+    }
+    try {
+      await prisma.galleryPhoto.delete({ where: { id } });
+    } catch (e) {
+      const gone =
+        e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025";
+      if (!gone) throw e;
+    }
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin/gallery");
 }

@@ -4,6 +4,10 @@ import { TrackLookupForm } from "@/components/TrackLookupForm";
 import { RequestForm } from "@/components/RequestForm";
 import { WorkGallery } from "@/components/WorkGallery";
 import { SITE_URL } from "@/lib/site";
+import { prisma } from "@/lib/prisma";
+
+// แกลเลอรีดึงรูปจาก DB มาด้วย — รีเฟรชทุก 2 นาที (และ on-demand ตอนอัป/ลบจากหลังร้าน)
+export const revalidate = 120;
 
 const shopName = "ลับคมอุดรธานี";
 const shopSubName = "By ช่างเจี๊ยบ";
@@ -474,7 +478,35 @@ function SectionTitle({
   );
 }
 
-export default function HomePage() {
+// อ่านรูปแกลเลอรีจาก DB แล้วจัดกลุ่มตามหมวด (พังเงียบ ๆ ถ้า DB มีปัญหา — เว็บยังขึ้นได้)
+async function galleryFromDb(): Promise<
+  Record<string, { title: string; image: string }[]>
+> {
+  try {
+    const photos = await prisma.galleryPhoto.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { url: true, category: true, caption: true },
+    });
+    const map: Record<string, { title: string; image: string }[]> = {};
+    for (const p of photos) {
+      (map[p.category] ??= []).push({
+        title: p.caption || "งานลับคมจากร้าน",
+        image: p.url,
+      });
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
+export default async function HomePage() {
+  const dbByCat = await galleryFromDb();
+  // รวมรูป static (ในโค้ด) + รูปจาก DB เข้าหมวดเดียวกัน
+  const galleryGroups = workGroups.map((g) => ({
+    ...g,
+    items: [...g.items, ...(dbByCat[g.category] ?? [])],
+  }));
   return (
     <main className="min-h-screen overflow-hidden bg-[#070806] pb-24 text-white md:pb-0">
       {/* Structured data ให้ Google เข้าใจว่าเป็นร้านค้าท้องถิ่นในอุดรธานี */}
@@ -717,7 +749,7 @@ export default function HomePage() {
         className="scroll-mt-24 bg-[#070806] px-4 py-16 md:px-6 md:py-24"
       >
         <div className="mx-auto max-w-7xl">
-          <WorkGallery groups={workGroups} />
+          <WorkGallery groups={galleryGroups} />
         </div>
       </section>
 

@@ -5,6 +5,9 @@ import { useCallback, useEffect, useState } from "react";
 type WorkItem = { title: string; image: string };
 type WorkGroup = { category: string; description: string; items: WorkItem[] };
 
+// จำนวนรูปที่โชว์ต่อหมวดก่อนกด "ดูเพิ่ม"
+const INITIAL_PER_GROUP = 8;
+
 export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
   // แผ่รูปทั้งหมดเป็นลำดับเดียว เพื่อให้เลื่อนซ้าย-ขวาใน lightbox ได้ต่อเนื่อง
   const flat = groups.flatMap((g) =>
@@ -24,6 +27,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
   }
 
   const [open, setOpen] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<Set<number>>(new Set());
 
   const close = useCallback(() => setOpen(null), []);
   const prev = useCallback(
@@ -56,7 +60,12 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
   return (
     <>
       <div className="space-y-12">
-        {groups.map((group, groupIndex) => (
+        {groups.map((group, groupIndex) => {
+          const isExpanded = expanded.has(groupIndex);
+          const visible = isExpanded
+            ? group.items
+            : group.items.slice(0, INITIAL_PER_GROUP);
+          return (
           <section
             aria-labelledby={`work-group-${groupIndex}`}
             className="border-t border-white/10 pt-8"
@@ -80,14 +89,14 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {group.items.map((item, itemIndex) => {
+              {visible.map((item, itemIndex) => {
                 const idx = offsets[groupIndex] + itemIndex;
                 return (
                   <button
                     type="button"
                     onClick={() => setOpen(idx)}
                     className="group block overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 text-left transition hover:-translate-y-1 hover:border-amber-300/70"
-                    key={`${group.category}-${item.title}`}
+                    key={`${group.category}-${itemIndex}`}
                   >
                     <span className="relative block">
                       <img
@@ -130,8 +139,22 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
                 );
               })}
             </div>
+            {!isExpanded && group.items.length > INITIAL_PER_GROUP && (
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExpanded((s) => new Set(s).add(groupIndex))
+                  }
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-amber-300/60 bg-black/30 px-6 text-base font-extrabold text-amber-200 transition hover:-translate-y-0.5 hover:bg-amber-300 hover:text-black"
+                >
+                  ดูเพิ่มในหมวดนี้ ({group.items.length - INITIAL_PER_GROUP} รูป)
+                </button>
+              </div>
+            )}
           </section>
-        ))}
+          );
+        })}
       </div>
 
       {current && (

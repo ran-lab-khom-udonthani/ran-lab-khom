@@ -7,7 +7,8 @@ export function TabBar({ requestCount = 0 }: { requestCount?: number }) {
   const pathname = usePathname();
   const isNew = pathname.startsWith("/admin/jobs/new");
   const isRequests = pathname.startsWith("/admin/requests");
-  const isQueue = !isNew && !isRequests;
+  const isGallery = pathname.startsWith("/admin/gallery");
+  const isQueue = !isNew && !isRequests && !isGallery;
 
   const item = (active: boolean) =>
     `relative flex min-h-[72px] flex-col items-center justify-center gap-1 text-[15px] font-semibold ${
@@ -15,7 +16,7 @@ export function TabBar({ requestCount = 0 }: { requestCount?: number }) {
     }`;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid max-w-md grid-cols-3 border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] no-print">
+    <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid max-w-md grid-cols-4 border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] no-print">
       <Link
         href="/admin"
         aria-current={isQueue ? "page" : undefined}
@@ -50,6 +51,16 @@ export function TabBar({ requestCount = 0 }: { requestCount?: number }) {
           )}
         </span>
         <span>คำขอ{requestCount > 0 ? ` (${requestCount})` : ""}</span>
+      </Link>
+      <Link
+        href="/admin/gallery"
+        aria-current={isGallery ? "page" : undefined}
+        className={item(isGallery)}
+      >
+        <span className="text-3xl leading-none" aria-hidden>
+          📸
+        </span>
+        <span>รูปงาน</span>
       </Link>
     </nav>
   );

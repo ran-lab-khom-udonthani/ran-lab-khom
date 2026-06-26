@@ -138,3 +138,19 @@ export const REQUEST_STATUS_META: Record<
 export function isValidRequestStatus(s: string): s is RequestStatus {
   return (REQUEST_STATUS_ORDER as string[]).includes(s);
 }
+
+// ---------- แกลเลอรีรูปงาน (อัปจากหลังร้าน เก็บใน DB + Vercel Blob) ----------
+// ต้องตรงกับ category ของกลุ่มในหน้าแกลเลอรี (src/app/page.tsx) เป๊ะ
+// เพื่อให้รูปจาก DB ไปรวมในกลุ่มเดียวกับรูป static
+export const GALLERY_CATEGORIES = [
+  "กรรไกร / คีมตัดหนัง",
+  "ปัตตาเลี่ยน / ใบมีดช่าง",
+  "มีดครัว / มีดพับ / มีดแล่",
+  "ใบเลื่อย / โซ่เลื่อย",
+  "ใบมีดวงกลม / ใบสไลซ์",
+  "เครื่องมือเฉพาะทาง / อุตสาหกรรม",
+] as const;
+
+export function isValidGalleryCategory(s: string): boolean {
+  return (GALLERY_CATEGORIES as readonly string[]).includes(s);
+}

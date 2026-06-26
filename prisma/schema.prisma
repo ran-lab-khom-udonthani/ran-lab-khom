@@ -50,6 +50,19 @@ model JobRequest {
   @@index([createdAt])
 }
 
+// รูปงานในแกลเลอรี (เจ้าของอัปจากหลังร้าน — ไฟล์อยู่บน Vercel Blob, ข้อมูลอยู่ที่นี่)
+model GalleryPhoto {
+  id        String   @id @default(cuid())
+  url       String // ลิงก์รูปบน Vercel Blob
+  category  String // ต้องตรงกับ GALLERY_CATEGORIES
+  caption   String? // คำบรรยายใต้รูป (ไม่บังคับ)
+  sortOrder Int      @default(0) // เรียงลำดับ (น้อย = ขึ้นก่อน)
+  createdAt DateTime @default(now())
+
+  @@index([category, sortOrder])
+  @@index([createdAt])
+}
+
 // รายการคมแต่ละชิ้นในงาน
 model JobItem {
   id          String   @id @default(cuid())
