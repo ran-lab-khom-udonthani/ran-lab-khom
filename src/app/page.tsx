@@ -4,6 +4,7 @@ import { TrackLookupForm } from "@/components/TrackLookupForm";
 import { RequestForm } from "@/components/RequestForm";
 import { WorkGallery } from "@/components/WorkGallery";
 import { ResetScroll } from "@/components/ResetScroll";
+import { ShopStatus } from "@/components/ShopStatus";
 import { SITE_URL } from "@/lib/site";
 import { prisma } from "@/lib/prisma";
 
@@ -586,10 +587,7 @@ export default async function HomePage() {
 
         <div className="relative mx-auto grid min-h-[560px] max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-[1.1fr_0.9fr] md:px-6">
           <div className="max-w-3xl fade-up">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-black/50 px-4 py-2 text-sm font-bold text-amber-200 shadow-[0_0_36px_rgba(245,158,11,0.18)]">
-              <span className="h-2 w-2 rounded-full bg-[#06c755]" />
-              ร้านลับคมอุดรธานี · เปิดจริง รับงานจริง
-            </div>
+            <ShopStatus openHour={9} closeHour={17} />
             <h1 className="text-4xl font-black leading-[1.05] tracking-normal text-white sm:text-6xl sm:leading-[1.02] lg:text-7xl">
               ลับคมอุดรธานี
               <span className="mt-2 block text-amber-300">By ช่างเจี๊ยบ</span>
