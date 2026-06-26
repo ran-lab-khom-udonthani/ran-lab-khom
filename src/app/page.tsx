@@ -717,7 +717,7 @@ export default async function HomePage() {
                   ผู้รับ / กรุณาส่งถึง
                 </p>
                 <p className="mt-1 text-2xl font-extrabold leading-tight text-zinc-900 md:text-3xl">
-                  นางสาวรุจิรา กุลศร
+                  รุจิรา กุลศร
                 </p>
               </div>
 
