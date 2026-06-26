@@ -581,11 +581,11 @@ export default async function HomePage() {
       </header>
 
       {/* HERO — ข้อความล้วน ไม่มีรูปประกอบ (พื้นหลังไล่สีทอง/ดำ) */}
-      <section className="relative min-h-[640px] overflow-hidden pt-24 md:min-h-[600px]">
+      <section className="relative min-h-[600px] overflow-hidden pt-24 md:min-h-[500px] md:pt-20">
         <div className="absolute inset-0 bg-[#070806]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(251,191,36,0.20),transparent_42%),radial-gradient(circle_at_85%_70%,rgba(245,158,11,0.10),transparent_45%),linear-gradient(180deg,#070806_60%,#0a0b08_100%)]" />
 
-        <div className="relative mx-auto grid min-h-[560px] max-w-7xl items-center gap-8 px-4 py-10 md:grid-cols-[1.1fr_0.9fr] md:px-6">
+        <div className="relative mx-auto grid min-h-[440px] max-w-7xl items-center gap-8 px-4 pb-10 pt-6 md:grid-cols-[1.1fr_0.9fr] md:items-start md:px-6 md:pt-1">
           <div className="max-w-3xl fade-up">
             <ShopStatus openHour={9} closeHour={17} />
             <h1 className="text-4xl font-black leading-[1.05] tracking-normal text-white sm:text-6xl sm:leading-[1.02] lg:text-7xl">
