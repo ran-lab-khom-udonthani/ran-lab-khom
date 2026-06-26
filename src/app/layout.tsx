@@ -83,7 +83,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="th" className={notoThai.variable}>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        {/* สั่งตั้งแต่ก่อนเพจวาด: ห้ามเบราว์เซอร์จำตำแหน่งสกอลล์เดิม (กันเด้งลงกลางหน้าตอนเปิดลิงก์ในแอป) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if('scrollRestoration' in history){history.scrollRestoration='manual';}",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

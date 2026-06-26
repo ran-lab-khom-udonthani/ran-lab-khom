@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { TrackLookupForm } from "@/components/TrackLookupForm";
 import { RequestForm } from "@/components/RequestForm";
 import { WorkGallery } from "@/components/WorkGallery";
+import { ResetScroll } from "@/components/ResetScroll";
 import { SITE_URL } from "@/lib/site";
 import { prisma } from "@/lib/prisma";
 
@@ -509,6 +510,7 @@ export default async function HomePage() {
   }));
   return (
     <main className="min-h-screen overflow-hidden bg-[#070806] pb-24 text-white md:pb-0">
+      <ResetScroll />
       {/* Structured data ให้ Google เข้าใจว่าเป็นร้านค้าท้องถิ่นในอุดรธานี */}
       <script
         type="application/ld+json"
