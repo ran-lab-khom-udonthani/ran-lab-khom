@@ -262,7 +262,10 @@ export async function deleteRequestAction(formData: FormData) {
 // ---------- แกลเลอรีรูปงาน ----------
 
 // ให้ AI (Claude Haiku) ดูรูปแล้วเลือกหมวด — ใช้เมื่อผู้ใช้เลือกโหมด "AUTO"
-async function classifyGalleryCategory(buffer: Buffer): Promise<string> {
+async function classifyGalleryCategory(
+  buffer: Buffer,
+  mediaType: "image/webp" | "image/jpeg" = "image/webp"
+): Promise<string> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new Error(
       "ยังไม่ได้เปิด AI แยกหมวด (ต้องตั้งค่า ANTHROPIC_API_KEY) — หรือเลือกหมวดเองก่อนอัป"
@@ -283,7 +286,7 @@ async function classifyGalleryCategory(buffer: Buffer): Promise<string> {
             type: "image",
             source: {
               type: "base64",
-              media_type: "image/webp",
+              media_type: mediaType,
               data: buffer.toString("base64"),
             },
           },
@@ -311,40 +314,54 @@ async function classifyGalleryCategory(buffer: Buffer): Promise<string> {
   return GALLERY_CATEGORIES[GALLERY_CATEGORIES.length - 1];
 }
 
-// อัปรูป 1 ไฟล์ (ฝั่ง client ย่อ+แปลง webp มาแล้ว) ขึ้น Vercel Blob + บันทึก DB
-export async function uploadGalleryPhotoAction(formData: FormData) {
-  await requireAuth();
-  const file = formData.get("file");
-  let category = String(formData.get("category") ?? "").trim();
-  const caption = String(formData.get("caption") ?? "").trim() || null;
-
-  if (!(file instanceof File) || file.size === 0) {
-    throw new Error("ไม่พบไฟล์รูป");
+// อัปรูป 1 ไฟล์ (ฝั่ง client ย่อ+แปลงมาแล้ว) ขึ้น Vercel Blob + บันทึก DB
+// คืนผลเป็น object (ไม่ throw) เพื่อให้ฝั่งหน้าเว็บโชว์สาเหตุจริงได้ (Next ปกปิดข้อความ throw ใน production)
+export async function uploadGalleryPhotoAction(
+  formData: FormData
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (!(await isAuthenticated())) {
+    return { ok: false, error: "หมดเวลาเข้าสู่ระบบ กรุณาล็อกอินใหม่" };
   }
-  if (file.size > 8 * 1024 * 1024) {
-    throw new Error("ไฟล์ใหญ่เกินไป");
+  try {
+    const file = formData.get("file");
+    let category = String(formData.get("category") ?? "").trim();
+    const caption = String(formData.get("caption") ?? "").trim() || null;
+
+    if (!(file instanceof File) || file.size === 0) {
+      return { ok: false, error: "ไม่พบไฟล์รูป" };
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      return { ok: false, error: "ไฟล์ใหญ่เกินไป (เกิน 8MB)" };
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const isJpeg =
+      file.type === "image/jpeg" || file.name.toLowerCase().endsWith(".jpg");
+    const contentType = isJpeg ? "image/jpeg" : "image/webp";
+    const ext = isJpeg ? "jpg" : "webp";
+
+    // โหมด AUTO = ให้ AI แยกหมวดให้; ไม่งั้นใช้หมวดที่ผู้ใช้เลือก
+    if (category === "AUTO") {
+      category = await classifyGalleryCategory(buffer, contentType);
+    } else if (!isValidGalleryCategory(category)) {
+      return { ok: false, error: "หมวดไม่ถูกต้อง" };
+    }
+
+    const blob = await put(`gallery/${randomUUID()}.${ext}`, buffer, {
+      access: "public",
+      contentType,
+    });
+
+    await prisma.galleryPhoto.create({
+      data: { url: blob.url, category, caption },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/admin/gallery");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "อัปไม่สำเร็จ" };
   }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  // โหมด AUTO = ให้ AI แยกหมวดให้; ไม่งั้นใช้หมวดที่ผู้ใช้เลือก
-  if (category === "AUTO") {
-    category = await classifyGalleryCategory(buffer);
-  } else if (!isValidGalleryCategory(category)) {
-    throw new Error("หมวดไม่ถูกต้อง");
-  }
-
-  const blob = await put(`gallery/${randomUUID()}.webp`, buffer, {
-    access: "public",
-    contentType: "image/webp",
-  });
-
-  await prisma.galleryPhoto.create({
-    data: { url: blob.url, category, caption },
-  });
-
-  revalidatePath("/");
-  revalidatePath("/admin/gallery");
 }
 
 // ลบรูปออกจากแกลเลอรี (ลบไฟล์บน Blob + record ใน DB)

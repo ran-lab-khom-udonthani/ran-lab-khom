@@ -5,11 +5,30 @@ import { useRouter } from "next/navigation";
 import { GALLERY_CATEGORIES } from "@/lib/constants";
 import { uploadGalleryPhotoAction } from "@/app/admin/actions";
 
-// ย่อ + หมุนตาม EXIF + แปลงเป็น webp ในเครื่อง (ลดขนาดก่อนอัป)
-async function toWebp(file: File, maxSize = 1280, quality = 0.82): Promise<File> {
-  const bitmap = await createImageBitmap(file, {
-    imageOrientation: "from-image",
-  });
+async function loadBitmap(file: File): Promise<ImageBitmap> {
+  try {
+    return await createImageBitmap(file, { imageOrientation: "from-image" });
+  } catch {
+    // เบราว์เซอร์เก่าบางตัวไม่รองรับ option นี้
+    return await createImageBitmap(file);
+  }
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  q: number
+): Promise<Blob | null> {
+  return new Promise((resolve) => canvas.toBlob((b) => resolve(b), type, q));
+}
+
+// ย่อ + หมุนตาม EXIF + แปลงเป็น webp; ถ้าเครื่องไม่รองรับ webp (เช่น iPhone บางรุ่น) ใช้ jpg แทน
+async function shrinkImage(
+  file: File,
+  maxSize = 1280,
+  quality = 0.82
+): Promise<File> {
+  const bitmap = await loadBitmap(file);
   const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
   const w = Math.max(1, Math.round(bitmap.width * scale));
   const h = Math.max(1, Math.round(bitmap.height * scale));
@@ -17,18 +36,22 @@ async function toWebp(file: File, maxSize = 1280, quality = 0.82): Promise<File>
   canvas.width = w;
   canvas.height = h;
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("canvas ไม่พร้อม");
+  if (!ctx) throw new Error("เบราว์เซอร์ไม่รองรับการย่อรูป");
   ctx.drawImage(bitmap, 0, 0, w, h);
-  bitmap.close();
-  const blob: Blob = await new Promise((resolve, reject) =>
-    canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("แปลงรูปไม่สำเร็จ"))),
-      "image/webp",
-      quality
-    )
-  );
-  const base = file.name.replace(/\.[^.]+$/, "");
-  return new File([blob], `${base}.webp`, { type: "image/webp" });
+  bitmap.close?.();
+
+  let blob = await canvasToBlob(canvas, "image/webp", quality);
+  let ext = "webp";
+  let type = "image/webp";
+  // iOS บางรุ่นจะคืน png/null แทน webp → ใช้ jpg แทน
+  if (!blob || blob.type !== "image/webp") {
+    blob = await canvasToBlob(canvas, "image/jpeg", quality);
+    ext = "jpg";
+    type = "image/jpeg";
+  }
+  if (!blob) throw new Error("แปลงรูปไม่สำเร็จ (เบราว์เซอร์ไม่รองรับ)");
+  const base = file.name.replace(/\.[^.]+$/, "") || "photo";
+  return new File([blob], `${base}.${ext}`, { type });
 }
 
 export function GalleryUploader() {
@@ -50,16 +73,23 @@ export function GalleryUploader() {
     setDone(0);
     let success = 0;
     let fail = 0;
+    let firstErr = "";
     for (const f of files) {
       try {
-        const webp = await toWebp(f);
+        const img = await shrinkImage(f);
         const fd = new FormData();
-        fd.append("file", webp);
+        fd.append("file", img);
         fd.append("category", category);
-        await uploadGalleryPhotoAction(fd);
-        success++;
-      } catch {
+        const res = await uploadGalleryPhotoAction(fd);
+        if (res?.ok) {
+          success++;
+        } else {
+          fail++;
+          if (!firstErr) firstErr = res?.error || "อัปไม่สำเร็จ";
+        }
+      } catch (e) {
         fail++;
+        if (!firstErr) firstErr = e instanceof Error ? e.message : "อัปไม่สำเร็จ";
       }
       setDone((d) => d + 1);
     }
@@ -69,7 +99,11 @@ export function GalleryUploader() {
     setMsg({
       ok: fail === 0,
       text:
-        `อัปขึ้นแล้ว ${success} รูป` + (fail ? ` · ล้มเหลว ${fail} รูป` : " 🎉"),
+        fail === 0
+          ? `อัปขึ้นแล้ว ${success} รูป 🎉`
+          : `สำเร็จ ${success} รูป · ล้มเหลว ${fail} รูป${
+              firstErr ? ` — ${firstErr}` : ""
+            }`,
     });
     router.refresh();
   }
