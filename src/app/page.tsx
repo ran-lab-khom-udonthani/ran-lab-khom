@@ -5,6 +5,7 @@ import { RequestForm } from "@/components/RequestForm";
 import { WorkGallery } from "@/components/WorkGallery";
 import { ResetScroll } from "@/components/ResetScroll";
 import { ShopStatus } from "@/components/ShopStatus";
+import { FacebookLink } from "@/components/FacebookLink";
 import { SITE_URL } from "@/lib/site";
 import { prisma } from "@/lib/prisma";
 
@@ -607,15 +608,13 @@ export default async function HomePage() {
                 <LineIcon />
                 แอดไลน์ส่งรูปสอบถาม
               </a>
-              <a
+              <FacebookLink
                 className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#1877f2] px-6 text-base font-extrabold text-white transition hover:-translate-y-0.5 hover:brightness-110"
                 href={facebookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 <FacebookIcon />
                 เฟซบุ๊กร้าน
-              </a>
+              </FacebookLink>
               <a
                 className="btn-gold"
                 href={storeMapUrl}
@@ -957,13 +956,13 @@ export default async function HomePage() {
                     <MapPinIcon />
                     นำทางไป Google Maps
                   </a>
-                  <a
+                  <FacebookLink
                     className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#1877f2] px-5 font-extrabold text-white"
                     href={facebookUrl}
                   >
                     f
                     <span>Facebook</span>
-                  </a>
+                  </FacebookLink>
                   <Link
                     className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/20 px-5 font-extrabold text-zinc-100 transition hover:border-amber-300 hover:text-amber-200"
                     href="/admin"
@@ -1021,12 +1020,12 @@ export default async function HomePage() {
               <PhoneIcon />
               โทรร้าน
             </a>
-            <a
+            <FacebookLink
               className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#1877f2] px-5 font-extrabold text-white"
               href={facebookUrl}
             >
               Facebook
-            </a>
+            </FacebookLink>
           </div>
         </div>
         <div className="mx-auto mt-6 flex max-w-7xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
