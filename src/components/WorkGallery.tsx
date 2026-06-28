@@ -100,7 +100,7 @@ export function WorkGallery({ groups }: { groups: WorkGroup[] }) {
                   >
                     <span className="relative block">
                       <img
-                        alt={`${item.title} - ${group.category}`}
+                        alt={`${item.title} · ${group.category} · ลับคมอุดรธานี By ช่างเจี๊ยบ`}
                         className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64 lg:h-72"
                         decoding="async"
                         loading="lazy"
