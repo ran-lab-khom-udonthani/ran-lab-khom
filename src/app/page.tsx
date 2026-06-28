@@ -202,6 +202,10 @@ const workGroups = [
       { title: "เครื่องปัตตาเลี่ยนพร้อมใช้", image: "/assets/works/clipper-n08.webp" },
       { title: "ชุดใบมีดปัตตาเลี่ยน", image: "/assets/works/clipper-n09.webp" },
       { title: "ใบมีดปัตตาเลี่ยนระยะใกล้", image: "/assets/works/clipper-n10.webp" },
+      { title: "ปัตตาเลี่ยนหลายรุ่นพร้อมใช้", image: "/assets/works/clipper-n11.webp" },
+      { title: "ใบมีดปัตตาเลี่ยนลับด้วยจานลับ", image: "/assets/works/clipper-n12.webp" },
+      { title: "ชุดใบมีดปัตตาเลี่ยนถอดลับ", image: "/assets/works/clipper-n13.webp" },
+      { title: "ใบมีดปัตตาเลี่ยน Andis หลังลับ", image: "/assets/works/clipper-n14.webp" },
     ],
   },
   {
@@ -246,6 +250,7 @@ const workGroups = [
       { title: "มีดแล่ / มีดพับ", image: "/assets/works/knife-n08.webp" },
       { title: "มีดชุดจากลูกค้า", image: "/assets/works/knife-n09.webp" },
       { title: "มีดงานครัวหลายแบบ", image: "/assets/works/knife-n10.webp" },
+      { title: "มีดใบใหญ่ลับคมใหม่", image: "/assets/works/knife-n11.webp" },
     ],
   },
   {
